@@ -1,41 +1,58 @@
 public class Player {
     String userName;
-    int userScore;
-    int correctGuesses;
-    int gamesPlayed;
+    Double accuracy;
+    int totalGuesses;
+    int cryptogramsPlayed;
+    int cryptogramsCompleted;
+
     public Player() {
-        userScore = 0;
-        correctGuesses = 0;
-        gamesPlayed = 0;
+        this.totalGuesses = 0;
+        this.accuracy = 0.00;
+        this.cryptogramsCompleted = 0;
+        this.totalGuesses = 0;
     }
     public Player(String name) {
-        userName = name;
-        userScore = 0;
-        correctGuesses = 0;
-        gamesPlayed = 0;
+        this.userName = name;
+        this.totalGuesses = 0;
+        this.accuracy = 0.00;
+        this.cryptogramsCompleted = 0;
+        this.totalGuesses = 0;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    public String getUserName() {
+        return userName;
+    }
+    public int getCryptogramsCompleted() {
+        return cryptogramsCompleted;
     }
 
-    // ADDERS
-    public void addUserScore() {
-        userScore += 1;
+    public void setCryptogramsCompleted(int cryptogramsCompleted) {
+        this.cryptogramsCompleted = cryptogramsCompleted;
     }
 
-    public void addGamesPlayed() {
-        gamesPlayed += 1;
+    public Double getAccuracy() {
+        return accuracy;
     }
 
-    public void addCorrectGuesses(int c) {
-        correctGuesses += c;
+    public void setAccuracy(Double accuracy) {
+        this.accuracy = accuracy;
     }
 
-    // GETTERS
-    public Integer getCorrectGuesses() {
-        return correctGuesses;
+    public int getCryptogramsPlayed() {
+        return cryptogramsPlayed;
     }
-    public Integer getUserScore() {
-        return userScore;
+
+    public void setCryptogramsPlayed(int cryptogramsPlayed) {
+        this.cryptogramsPlayed = cryptogramsPlayed;
     }
-    public Integer getGamesPlayed() {
-        return gamesPlayed;
+
+    public int getTotalGuesses() {
+        return totalGuesses;
+    }
+
+    public void setTotalGuesses(int totalGuesses) {
+        this.totalGuesses = totalGuesses;
     }
 }
