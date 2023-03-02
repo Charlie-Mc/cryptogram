@@ -29,7 +29,7 @@ public class gui {
         start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                game.start();
+               // game.;
             }
         });
 
