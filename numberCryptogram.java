@@ -1,10 +1,8 @@
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class numberCryptogram extends Cryptogram{
 
-    private int [][] NumberEncryption;
 
     public numberCryptogram()throws IOException {
         super();
