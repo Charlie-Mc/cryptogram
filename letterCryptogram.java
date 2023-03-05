@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class letterCryptogram extends Cryptogram{
 
-   private char [][] LetterEncryption;
+
    private char [] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     public letterCryptogram() throws IOException {
         super();
