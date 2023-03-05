@@ -3,13 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class gui {
+
+public class Gui {
 
     public final int SCREEN_WIDTH = 1080;
     public final int SCREEN_HEIGHT = 720;
     public final Rectangle BUTTON_SIZE = new Rectangle(SCREEN_WIDTH/4, SCREEN_HEIGHT / 8);
-
-    public Cryptogram game = new Cryptogram();
 
     public void startMenu() {
 
