@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -18,7 +19,7 @@ public class Game {
 
     public Game() throws IOException {
         userInput = getUserInput();
-        Cryptogram crypt = new Cryptogram(userInput);
+        chooseGame(userInput);
 
     }
     public void playGame() {
@@ -46,6 +47,19 @@ public class Game {
 
         return choice;
     }
+    public void chooseGame(int userInput) throws IOException {
+
+
+        if (userInput == 1) {
+            letterCryptogram LetterCrypt = new letterCryptogram();
+        }
+        if (userInput == 2) {
+            numberCryptogram NumberCrypt = new numberCryptogram();
+        }
+
+    }
+
+
 
 }
 
