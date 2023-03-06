@@ -1,24 +1,19 @@
 import java.io.IOException;
 
+
 public class numberCryptogram extends Cryptogram{
 
-    private int [][] NumberEncryption;
 
-    public numberCryptogram(String phrase)throws IOException {
+    public numberCryptogram()throws IOException {
         super();
+        FileReader("phrases.txt");
+        String phrase = choosePhrase();
         encryptPhrase(phrase);
-        NumberEncryption = new int[26][2] ;
-        numberMap();
+      /*  for (Map.Entry<Integer, Character> entry : encryptionMap.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        } */
         System.out.println("done");
     }
 
-    private void numberMap() {
-        for (int i = 0; i < encryption.size(); i++) {
-            NumberEncryption[i][0] = i;
-            if (encryption.get(i) == null){
-                continue;
-            }
-            NumberEncryption[i][1] = encryption.get(i);
-        }
-    }
+
 }

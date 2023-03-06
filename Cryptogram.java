@@ -3,10 +3,7 @@ TODO:
     This is for the generate Branch, delete this comment when complete
  */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,29 +11,15 @@ import java.io.IOException;
 
 
 public class Cryptogram {
-    public List<Character> encryption = Arrays.asList(new Character[26]);
-
+    public ArrayList<Integer> encryption = new ArrayList<>();
+    public HashMap<Integer, Character> encryptionMap = new HashMap<>();
     private ArrayList<String> phrases = new ArrayList<>();
     private List<Integer> numLetters = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25));
 
     private String phrase;
 
-    public Cryptogram(int userInput) throws IOException {
-
-        FileReader("phrases.txt");
-        phrase = chooseCryptogram();
-
-        if (userInput == 1) {
-            letterCryptogram LetterCrypt = new letterCryptogram(phrase);
-        }
-        if (userInput == 2) {
-            numberCryptogram NumberCrypt = new numberCryptogram(phrase);
-        }
-    }
 
     public Cryptogram(){
-       // FileReader("phrases.txt");
-       // phrase = chooseCryptogram();
 
     }
 
@@ -52,8 +35,15 @@ public class Cryptogram {
                 continue;
             }
             // check if the letter is already in the encryption
-            if (encryption != null) {
-                if (encryption.contains(letter)) {
+            if (encryptionMap != null) {
+                if (encryptionMap.containsValue(letter)) {
+                    for (int key : encryptionMap.keySet()) {
+                        if (encryptionMap.get(key) == letter) {
+                            encryptionMap.put(key, letter);
+                            encryption.add(key);
+                        }
+                    }
+
                     continue;
                 }
             }
@@ -68,13 +58,14 @@ public class Cryptogram {
             Random rand = new Random();
             int random_int = rand.nextInt(numLetters.size());
 
-            // add the letter and number to the encryption
-            encryption.set(numLetters.get(random_int), letter);
+
+            encryptionMap.put(numLetters.get(random_int), letter);
+            encryption.add(numLetters.get(random_int));
             numLetters.remove(random_int);
         }
     }
 
-    private void FileReader(String fileName)
+    protected void FileReader(String fileName)
             throws IOException
     {
         File file = new File(fileName);
@@ -101,7 +92,7 @@ public class Cryptogram {
         fr.close();
     }
 
-    private String chooseCryptogram() {
+    protected String choosePhrase() {
         String phrase;
         Random rand = new Random();
         int random_int = rand.nextInt(phrases.size());
@@ -111,3 +102,4 @@ public class Cryptogram {
 
 
 }
+
