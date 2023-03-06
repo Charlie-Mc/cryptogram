@@ -1,7 +1,5 @@
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class Game {
     //  private List<List<String>> encryption;
@@ -20,6 +18,8 @@ public class Game {
         userInput = getUserInput();
         chooseGame(userInput);
 
+    //    chooseGame(userInput);
+
     }
 
     public void chooseGame(int userInput) throws IOException {
@@ -27,186 +27,16 @@ public class Game {
 
         if (userInput == 1) {
             letterCryptogram LetterCrypt = new letterCryptogram();
-            playGame(LetterCrypt);
+            LetterCrypt.play();
         }
         if (userInput == 2) {
             numberCryptogram NumberCrypt = new numberCryptogram();
-            playGame(NumberCrypt);
+            NumberCrypt.play();
         }
 
     }
 
-    public void playGame(letterCryptogram crypt) throws IOException {
-        System.out.println("Game Started!");
-        System.out.println("Enter a character to guess, press the ` key to undo a guess");
 
-        Stack<Character> inputs = new Stack<>();
-        Stack<Integer> numPositions = new Stack<>();
-        Stack<Integer> letPositions = new Stack<>();
-
-        // stores the phrase from the child class of Cryptogram
-        String phrase = crypt.getPhrase();
-        HashMap<Integer, Character> encryptionMap = crypt.encryptionMap;
-
-       StringBuilder encryptedPhrase = new StringBuilder();
-        for (int i = 0; i < Math.min(phrase.strip().length(),crypt.completeEncryption.size()); i++) {
-            if (phrase.charAt(i) == ' ') {
-                continue;
-            } else {
-                encryptedPhrase.append(encryptionMap.get(crypt.completeEncryption.get(i)));
-            }
-        }
-        System.out.println("Encrypted Phrase: " + encryptedPhrase);
-        int correctGuesses = 0;
-
-        boolean running = true;
-        do {
-            System.out.println("Current phrase:");
-            for (int i = 0; i < crypt.completeEncryption.size(); i++) {
-                int number = crypt.completeEncryption.get(i);
-                if (encryptionMap.containsKey(number)) {
-                    System.out.print(encryptionMap.get(number));
-                } else {
-                    System.out.print("*");
-                }
-            }
-            System.out.println();
-
-            System.out.println("Enter a character to guess:");
-            char guess = enterLetter();
-            if (guess == '`') {
-                if (!inputs.empty()) {
-                    int undoNumber = numPositions.pop();
-                    int undoLetter = letPositions.pop();
-                    encryptionMap.remove(undoNumber);
-                    crypt.completeEncryption.set(undoLetter, undoNumber);
-                    inputs.pop();
-                    correctGuesses--;
-                    System.out.println("Undo successful!");
-                } else {
-                    System.out.println("No guesses to undo!");
-                }
-            } else {
-                System.out.println("Enter the position to replace (starting from 1):");
-                int pos = enterNumber() - 1;
-                if (pos < 0 || pos >= crypt.completeEncryption.size()) {
-                    System.out.println("Invalid position!");
-                } else if (inputs.contains(guess)) {
-                    System.out.println("Character already guessed!");
-                } else {
-                    int num = crypt.completeEncryption.get(pos);
-                    encryptionMap.put(num, guess);
-                    crypt.completeEncryption.set(pos, num);
-                    inputs.push(guess);
-                    numPositions.push(num);
-                    letPositions.push(pos);
-                    correctGuesses++;
-
-                    // Fill in all instances of the entered letter in the cryptogram
-                    for (int i = 0; i < crypt.completeEncryption.size(); i++) {
-                        int number = crypt.completeEncryption.get(i);
-                        if (encryptionMap.containsKey(number) && encryptionMap.get(number) == guess) {
-                            crypt.completeEncryption.set(i, num);
-                        }
-                    }
-
-                    if (correctGuesses == encryptionMap.size()) {
-                        running = false;
-                        System.out.println("Congratulations, you solved the cryptogram!");
-                    }
-                }
-            }
-        } while (running);
-
-
-    }
-
-
-    public void playGame(numberCryptogram crypt) throws IOException {
-        System.out.println("Game Started!");
-        System.out.println("Enter a character to guess, press the ` key to undo a guess");
-
-        Stack<Character> inputs = new Stack<>();
-        Stack<Integer> numPositions = new Stack<>();
-        Stack<Integer> letPositions = new Stack<>();
-
-        // stores the phrase from the child class of Cryptogram
-        String phrase = crypt.getPhrase();
-        HashMap<Integer, Character> encryptionMap = crypt.encryptionMap;
-
-       StringBuilder encryptedPhrase = new StringBuilder();
-        for (int i = 0; i < Math.min(phrase.strip().length(),crypt.completeEncryption.size()); i++) {
-            if (phrase.charAt(i) == ' ') {
-                continue;
-            } else {
-                encryptedPhrase.append(encryptionMap.get(crypt.completeEncryption.get(i)));
-            }
-        }
-        System.out.println("Encrypted Phrase: " + encryptedPhrase);
-
-        int correctGuesses = 0;
-
-        boolean running = true;
-        do {
-            System.out.println("Current phrase:");
-            for (int i = 0; i < crypt.completeEncryption.size(); i++) {
-                int number = crypt.completeEncryption.get(i);
-                if (encryptionMap.containsKey(number)) {
-                    System.out.print(encryptionMap.get(number));
-                } else {
-                    System.out.print("*");
-                }
-            }
-            System.out.println();
-
-            System.out.println("Enter a character to guess:");
-            char guess = enterLetter();
-            if (guess == '`') {
-                if (!inputs.empty()) {
-                    int undoNumber = numPositions.pop();
-                    int undoLetter = letPositions.pop();
-                    encryptionMap.remove(undoNumber);
-                    crypt.completeEncryption.set(undoLetter, undoNumber);
-                    inputs.pop();
-                    correctGuesses--;
-                    System.out.println("Undo successful!");
-                } else {
-                    System.out.println("No guesses to undo!");
-                }
-            } else {
-                System.out.println("Enter the position to replace (starting from 1):");
-                int pos = enterNumber() - 1;
-                if (pos < 0 || pos >= crypt.completeEncryption.size()) {
-                    System.out.println("Invalid position!");
-                } else if (inputs.contains(guess)) {
-                    System.out.println("Character already guessed!");
-                } else {
-                    int num = crypt.completeEncryption.get(pos);
-                    encryptionMap.put(num, guess);
-                    crypt.completeEncryption.set(pos, num);
-                    inputs.push(guess);
-                    numPositions.push(num);
-                    letPositions.push(pos);
-                    correctGuesses++;
-
-                    // Fill in all instances of the entered letter in the cryptogram
-                    for (int i = 0; i < crypt.completeEncryption.size(); i++) {
-                        int number = crypt.completeEncryption.get(i);
-                        if (encryptionMap.containsKey(number) && encryptionMap.get(number) == guess) {
-                            crypt.completeEncryption.set(i, num);
-                        }
-                    }
-
-                    if (correctGuesses == encryptionMap.size()) {
-                        running = false;
-                        System.out.println("Congratulations, you solved the cryptogram!");
-                    }
-                }
-            }
-        } while (running);
-
-
-    }
     private int getUserInput() {
         int choice = 0;
         boolean correctInput = false;

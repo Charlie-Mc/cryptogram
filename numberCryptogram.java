@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Scanner;
 
 
 public class numberCryptogram extends Cryptogram{
@@ -17,6 +18,20 @@ public class numberCryptogram extends Cryptogram{
 
     public String getPhrase() {
         return phrase;
+    }
+
+    public void play() {
+        System.out.println("Cryptogram: " + phrase);
+        Scanner scanner = new Scanner(System.in);
+        for (int i = 0; i < completeEncryption.size(); i++) {
+            int number = completeEncryption.get(i);
+            char encryptedLetter = encryptionMap.get(number);
+            System.out.print("Guess for " + number + ": ");
+            char guess = scanner.next().charAt(0);
+            encryptionMap.put(number, guess);
+        }
+        scanner.close();
+        System.out.println("Your guess: " + encryptionMap.values());
     }
 
 }
