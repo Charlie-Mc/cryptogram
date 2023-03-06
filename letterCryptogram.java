@@ -5,11 +5,12 @@ import java.util.Map;
 public class letterCryptogram extends Cryptogram{
 
 
+    private String phrase;
     private char [] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     public letterCryptogram() throws IOException {
         super();
         FileReader("phrases.txt");
-        String phrase = choosePhrase();
+        phrase = choosePhrase();
         encryptPhrase(phrase);
         HashMap<Character, Character> LetterEncryptionMap = new HashMap<>();
 
@@ -21,6 +22,11 @@ public class letterCryptogram extends Cryptogram{
         }
         System.out.println("done");
     }
+
+    public String getPhrase() {
+        return phrase;
+    }
+
 
 
 }

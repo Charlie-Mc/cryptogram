@@ -11,7 +11,7 @@ import java.io.IOException;
 
 
 public class Cryptogram {
-    public ArrayList<Integer> encryption = new ArrayList<>();
+    public ArrayList<Integer> completeEncryption = new ArrayList<>();
     public HashMap<Integer, Character> encryptionMap = new HashMap<>();
     private ArrayList<String> phrases = new ArrayList<>();
     private List<Integer> numLetters = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25));
@@ -19,9 +19,10 @@ public class Cryptogram {
     private String phrase;
 
 
-    public Cryptogram(){
+    public Cryptogram() throws IOException {
 
     }
+
 
     public void encryptPhrase(String phrase) {
 
@@ -40,7 +41,7 @@ public class Cryptogram {
                     for (int key : encryptionMap.keySet()) {
                         if (encryptionMap.get(key) == letter) {
                             encryptionMap.put(key, letter);
-                            encryption.add(key);
+                            completeEncryption.add(key);
                         }
                     }
 
@@ -60,7 +61,7 @@ public class Cryptogram {
 
 
             encryptionMap.put(numLetters.get(random_int), letter);
-            encryption.add(numLetters.get(random_int));
+            completeEncryption.add(numLetters.get(random_int));
             numLetters.remove(random_int);
         }
     }
