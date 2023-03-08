@@ -11,17 +11,52 @@ import java.io.IOException;
 
 
 public class Cryptogram {
-    public ArrayList<Integer> encryption = new ArrayList<>();
+    static public ArrayList<Integer> completeEncryption = new ArrayList<>();
     public HashMap<Integer, Character> encryptionMap = new HashMap<>();
     private ArrayList<String> phrases = new ArrayList<>();
     private List<Integer> numLetters = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25));
 
     private String phrase;
+    private String BlankPhrase= " ";
 
 
-    public Cryptogram(){
-
+    public Cryptogram() throws IOException {
     }
+
+    public HashMap<Integer, Character> getEncryptionMap() {
+        return null;
+    }
+    public HashMap<Character, Character> getLetterEncryptionMap() {
+        return null;
+    }
+
+    public HashMap<Character, Character> getLetterUserMap() {
+        return null;
+    }
+    public HashMap<Integer, Character> getUserMap() {
+        return null;
+    }
+
+    public String getPhrase() {
+        return phrase;
+    }
+
+    public String getBlankPhrase(){
+        return BlankPhrase;
+    }
+
+    public ArrayList<Integer> getCompleteEncryption() {
+        return completeEncryption;
+    }
+
+    public char getalphabet(int num) {
+        return ' ';
+    }
+
+    public int getChatAt(char letter) {
+        return 0;
+    }
+
 
     public void encryptPhrase(String phrase) {
 
@@ -37,12 +72,12 @@ public class Cryptogram {
             // check if the letter is already in the encryption
             if (encryptionMap != null) {
                 if (encryptionMap.containsValue(letter)) {
-                  for (int key : encryptionMap.keySet()) {
-                      if (encryptionMap.get(key) == letter) {
-                          encryptionMap.put(key, letter);
-                          encryption.add(key);
-                      }
-                  }
+                    for (int key : encryptionMap.keySet()) {
+                        if (encryptionMap.get(key) == letter) {
+                            encryptionMap.put(key, letter);
+                            completeEncryption.add(key);
+                        }
+                    }
 
                     continue;
                 }
@@ -60,7 +95,7 @@ public class Cryptogram {
 
 
             encryptionMap.put(numLetters.get(random_int), letter);
-            encryption.add(numLetters.get(random_int));
+            completeEncryption.add(numLetters.get(random_int));
             numLetters.remove(random_int);
         }
     }
@@ -96,9 +131,22 @@ public class Cryptogram {
         String phrase;
         Random rand = new Random();
         int random_int = rand.nextInt(phrases.size());
-
         return phrase= phrases.get(random_int);
+    }
+
+    protected String generateBlankPhrase(String phrase) {
+        BlankPhrase = "_";
+        for (int i = 1; i < phrase.length(); i++) {
+            if (phrase.charAt(i) == ' ') {
+                BlankPhrase = BlankPhrase + " ";
+            } else {
+                BlankPhrase = BlankPhrase + "_";
+            }
+        }
+
+        return BlankPhrase;
     }
 
 
 }
+
