@@ -1,37 +1,42 @@
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.HashMap;
+
 
 
 public class numberCryptogram extends Cryptogram{
 
+    HashMap <Integer, Character> UsersInput = new HashMap<>();
     private String phrase;
+    private String blankPhrase;
+
     public numberCryptogram()throws IOException {
         super();
         FileReader("phrases.txt");
         phrase = choosePhrase();
+        blankPhrase = generateBlankPhrase(phrase);
         encryptPhrase(phrase);
-      /*  for (Map.Entry<Integer, Character> entry : encryptionMap.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        } */
+       for (int key: encryptionMap.keySet()){
+           UsersInput.put(key, '_');
+       }
         System.out.println("done");
     }
-
+    @Override
     public String getPhrase() {
         return phrase;
     }
 
-    public void play() {
-        System.out.println("Cryptogram: " + phrase);
-        Scanner scanner = new Scanner(System.in);
-        for (int i = 0; i < completeEncryption.size(); i++) {
-            int number = completeEncryption.get(i);
-            char encryptedLetter = encryptionMap.get(number);
-            System.out.print("Guess for " + number + ": ");
-            char guess = scanner.next().charAt(0);
-            encryptionMap.put(number, guess);
-        }
-        scanner.close();
-        System.out.println("Your guess: " + encryptionMap.values());
+    @Override
+    public HashMap<Integer, Character> getUserMap (){
+        return UsersInput;
+    }
+    @Override
+    public HashMap<Integer, Character> getEncryptionMap() {
+        return UsersInput;
+    }
+
+    @Override
+    public String getBlankPhrase(){
+        return blankPhrase;
     }
 
 }

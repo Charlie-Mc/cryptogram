@@ -17,14 +17,44 @@ public class Cryptogram {
     private List<Integer> numLetters = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25));
 
     private String phrase;
+    private String BlankPhrase= " ";
 
 
     public Cryptogram() throws IOException {
-
     }
 
-    public ArrayList<Integer> completeEncryption() {
+    public HashMap<Integer, Character> getEncryptionMap() {
+        return null;
+    }
+    public HashMap<Character, Character> getLetterEncryptionMap() {
+        return null;
+    }
+
+    public HashMap<Character, Character> getLetterUserMap() {
+        return null;
+    }
+    public HashMap<Integer, Character> getUserMap() {
+        return null;
+    }
+
+    public String getPhrase() {
+        return phrase;
+    }
+
+    public String getBlankPhrase(){
+        return BlankPhrase;
+    }
+
+    public ArrayList<Integer> getCompleteEncryption() {
         return completeEncryption;
+    }
+
+    public char getalphabet(int num) {
+        return ' ';
+    }
+
+    public int getChatAt(char letter) {
+        return 0;
     }
 
 
@@ -101,8 +131,20 @@ public class Cryptogram {
         String phrase;
         Random rand = new Random();
         int random_int = rand.nextInt(phrases.size());
-
         return phrase= phrases.get(random_int);
+    }
+
+    protected String generateBlankPhrase(String phrase) {
+        BlankPhrase = "_";
+        for (int i = 1; i < phrase.length(); i++) {
+            if (phrase.charAt(i) == ' ') {
+                BlankPhrase = BlankPhrase + " ";
+            } else {
+                BlankPhrase = BlankPhrase + "_";
+            }
+        }
+
+        return BlankPhrase;
     }
 
 
