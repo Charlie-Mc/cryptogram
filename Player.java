@@ -71,9 +71,9 @@ public class Player {
         try {
             File file;
             if (userName.equals("player")) {
-                file = new File("player.txt");
+                file = new File("player.user_file");
             } else {
-                file = new File(userName.toLowerCase().replace(' ', '_') + ".txt");
+                file = new File(userName.toLowerCase().replace(' ', '_') + ".user_file");
             }
 
             FileWriter writer = new FileWriter(file);
