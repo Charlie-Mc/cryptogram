@@ -160,6 +160,7 @@ public class Game {
         int choice = 0;
         boolean correctInput = false;
         System.out.println("Enter / at any time to quit the game");
+        System.out.println("Enter ? at any time to show the answer");
         do {
             System.out.println("Please enter 1 to play a letter cryptogram or 2 to play a number cryptogram");
             Scanner input = new Scanner(System.in);
@@ -225,6 +226,11 @@ public class Game {
                     System.exit(0);
                 }
 
+                if (c == '?') {
+                    System.out.println("showing solution ...");
+                    return c;
+                }
+
                 if (!keySet.contains(c)) {
                     System.out.println("key in not in the list, please enter a valid key");
                 }
@@ -250,6 +256,11 @@ public class Game {
                 if (c == '/') {
                     player.saveDetails();
                     System.exit(0);
+                }
+
+                if (c == '?') {
+                    System.out.println("showing solution ...");
+                    return c;
                 }
 
                 if (!Character.isLetter(c) && c != '-') {

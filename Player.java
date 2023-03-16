@@ -16,6 +16,7 @@ public class Player {
     public Player() {
         this.accuracy = 0.00;
         this.cryptogramsCompleted = 0;
+        this.cryptogramsPlayed = 0;
         this.totalGuesses = 0;
         this.correctGuesses = 0;
     }
@@ -23,6 +24,7 @@ public class Player {
         this.userName = name;
         this.accuracy = 0.00;
         this.cryptogramsCompleted = 0;
+        this.cryptogramsPlayed = 0;
         this.totalGuesses = 0;
         this.correctGuesses = 0;
     }
@@ -80,6 +82,7 @@ public class Player {
 
             writer.write("accuracy = " + getAccuracy() + "\n");
             writer.write("games completed = " + getCryptogramsCompleted() + "\n");
+            writer.write("games played = " + getCryptogramsPlayed() + "\n");
             writer.write("total guesses = " + getTotalGuesses() + "\n");
             writer.write("correct guesses = " + getCorrectGuesses() + "\n");
             writer.close();
