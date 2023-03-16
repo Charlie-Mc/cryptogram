@@ -7,6 +7,7 @@ public class Player {
     int cryptogramsPlayed;
     int cryptogramsCompleted;
 
+    /* Empty Constructor Method */
     public Player() {
         this.totalGuesses = 0;
         this.accuracy = 0.00;
@@ -14,6 +15,8 @@ public class Player {
         this.totalGuesses = 0;
         this.correctGuesses = 0;
     }
+
+    /* Constructor Method with name input*/
     public Player(String name) {
         this.userName = name;
         this.totalGuesses = 0;
@@ -63,5 +66,19 @@ public class Player {
     }
     public void addCorrectGuesses() {
         correctGuesses += 1;
+    }
+
+    public String toString() {
+        if (userName == null) {
+            return "Player is missing a username";
+        }
+        return "Player{" +
+                "userName= '" + getUserName() + '\'' +
+                ", cryptogramsCompleted= " + getCryptogramsCompleted() +
+                ", Accuracy= " + getAccuracy() +
+                ", cryptogramsPlayed= " + getCryptogramsPlayed() +
+                ", totalGuesses= " + getTotalGuesses() +
+                ", correctGuesses= " + getCorrectGuesses() +
+                '}';
     }
 }
