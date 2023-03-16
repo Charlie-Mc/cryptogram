@@ -8,12 +8,11 @@ public class Game {
     Player player = new Player();
     String blankPhrase;
 
+
+
     public static void main(String[] args) throws IOException {
         // Create a new game
         Game game = new Game();
-        Gui gui = new Gui();
-        // Start the game
-        gui.startMenu();
 
     }
 
@@ -23,7 +22,6 @@ public class Game {
         userInput = getUserInput();
         // runs that game version
         GameVersion(userInput);
-
 
 
     }
@@ -82,6 +80,7 @@ public class Game {
             System.out.println("phrase: " + crypt.getPhrase());
             System.out.println("current phrase: " + blankPhrase);
             System.out.println("enter a letter or enter - to remove a mapping");
+
             char letterInput = enterLetter();
             char keyInputChar = '_';
 
