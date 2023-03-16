@@ -1,6 +1,12 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class Player {
-    String userName;
-    Double accuracy;
+    String userName = "player";
+    double accuracy;
     int totalGuesses;
 
     int correctGuesses;
@@ -8,7 +14,6 @@ public class Player {
     int cryptogramsCompleted;
 
     public Player() {
-        this.totalGuesses = 0;
         this.accuracy = 0.00;
         this.cryptogramsCompleted = 0;
         this.totalGuesses = 0;
@@ -16,7 +21,6 @@ public class Player {
     }
     public Player(String name) {
         this.userName = name;
-        this.totalGuesses = 0;
         this.accuracy = 0.00;
         this.cryptogramsCompleted = 0;
         this.totalGuesses = 0;
@@ -32,36 +36,58 @@ public class Player {
         return cryptogramsCompleted;
     }
 
-    public void addCryptogramsCompleted() {
-        cryptogramsCompleted += 1;
-    }
+    public void addCryptogramsCompleted() {this.cryptogramsCompleted += 1;}
 
-    public Double getAccuracy() {
+    public double getAccuracy() {
+        try {
+            this.accuracy = correctGuesses / totalGuesses;
+        } catch (ArithmeticException ignored){}
+
         return accuracy;
-    }
-
-    public void setAccuracy(Double accuracy) {
-        this.accuracy = accuracy;
     }
 
     public int getCryptogramsPlayed() {
         return cryptogramsPlayed;
     }
 
-    public void addCryptogramsPlayed() {cryptogramsPlayed += 1;}
+    public void addCryptogramsPlayed() {this.cryptogramsPlayed += 1;}
 
     public int getTotalGuesses() {
         return totalGuesses;
     }
 
     public void addTotalGuesses() {
-        totalGuesses += 1;
+        this.totalGuesses += 1;
     }
 
     public int getCorrectGuesses() {
         return correctGuesses;
     }
     public void addCorrectGuesses() {
-        correctGuesses += 1;
+        this.correctGuesses += 1;
+    }
+
+    public void saveDetails() throws FileNotFoundException {
+        try {
+            File file;
+            if (userName.equals("player")) {
+                file = new File("player.txt");
+            } else {
+                file = new File(userName.toLowerCase().replace(' ', '_') + ".txt");
+            }
+
+            FileWriter writer = new FileWriter(file);
+
+            writer.write("accuracy = " + getAccuracy() + "\n");
+            writer.write("games completed = " + getCryptogramsCompleted() + "\n");
+            writer.write("total guesses = " + getTotalGuesses() + "\n");
+            writer.write("correct guesses = " + getCorrectGuesses() + "\n");
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println("An error occured!");
+            e.printStackTrace();
+        }
+
     }
 }
