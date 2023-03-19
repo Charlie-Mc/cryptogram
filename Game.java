@@ -382,9 +382,9 @@ public class Game {
    public Cryptogram loadGame(Player p) throws IOException, ClassNotFoundException {
         String filename = p.getUserName() + ".game_save";
         Scanner scan = new Scanner(p.getUserName() + ".input");
-        userInput = scan.nextByte();
+        String input = scan.nextLine();
+        userInput = (int) input.charAt(0) - '0' - 50;
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
-
         return (Cryptogram) ois.readObject();
    }
 }
