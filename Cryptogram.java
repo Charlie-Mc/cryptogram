@@ -1,11 +1,8 @@
+import java.io.*;
 import java.util.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 
-public class Cryptogram {
+public class Cryptogram implements Serializable {
     static public ArrayList<Integer> completeEncryption = new ArrayList<>();
     public HashMap<Integer, Character> encryptionMap = new HashMap<>();
     private ArrayList<String> phrases = new ArrayList<>();
