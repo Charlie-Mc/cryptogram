@@ -18,7 +18,7 @@ public class Player {
         this.correctGuesses = 0;
     }
     public Player(String name) {
-        this.userName = name;
+        this.userName = name.toLowerCase().replace(' ', '_');
         this.accuracy = 0.00;
         this.cryptogramsCompleted = 0;
         this.cryptogramsPlayed = 0;
@@ -83,7 +83,7 @@ public class Player {
             if (userName.equals("player")) {
                 file = new File("player.user_file");
             } else {
-                file = new File(userName.toLowerCase().replace(' ', '_') + ".user_file");
+                file = new File(userName + ".user_file");
             }
 
             FileWriter writer = new FileWriter(file);

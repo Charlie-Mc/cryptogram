@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class letterCryptogram extends Cryptogram {
+public class LetterCryptogram extends Cryptogram {
 
     private String phrase;
     private String blankPhrase;
@@ -12,7 +12,7 @@ public class letterCryptogram extends Cryptogram {
     private HashMap<Character, Character> LetterEncryptionMap = new HashMap<>();
     private char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-    public letterCryptogram() throws IOException {
+    public LetterCryptogram() throws IOException {
         super();
         FileReader("phrases.txt");
         phrase = choosePhrase();
