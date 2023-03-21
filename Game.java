@@ -35,15 +35,17 @@ public class Game {
                 players.addPlayer(new Player(playerName));
                 players.savePlayersList();
             }
-        } else {players.loadPlayer("player");}
+        } else {players.loadPlayer("player");
+                playerName = "player";
+        }
 
         // gets the user input for the game version
-        if (new File(player.getUserName() + ".game_save").exists()) {
-            Cryptogram c = loadGame(player);
-            GameVersion(userInput, c, player);
+        if (new File(playerName + ".game_save").exists()) {
+            Cryptogram c = loadGame(players.getPlayer(playerName));
+            GameVersion(userInput, c, players.getPlayer(playerName));
         } else {
             userInput = getUserInput();
-            GameVersion(userInput, null, player);
+            GameVersion(userInput, null, players.getPlayer(playerName));
         }
         // runs that game version;
 
@@ -156,7 +158,7 @@ public class Game {
         }
             System.out.println();
             players.getPlayer(playerName).saveDetails();
-            saveGame(player, crypt);
+            saveGame(players.getPlayer(playerName), crypt);
     }
 
 
@@ -248,9 +250,9 @@ public class Game {
                 if (c == '/') {
                     players.getPlayer(playerName).saveDetails();
                     if (lcrypt != null)
-                        saveGame(player, lcrypt);
+                        saveGame(players.getPlayer(playerName), lcrypt);
                     else
-                        saveGame(player, ncrypt);
+                        saveGame(players.getPlayer(playerName), ncrypt);
                     System.exit(0);
                 }
 
@@ -284,9 +286,9 @@ public class Game {
                 if (c == '/') {
                     players.getPlayer(playerName).saveDetails();
                     if (lcrypt != null)
-                        saveGame(player, lcrypt);
+                        saveGame(players.getPlayer(playerName), lcrypt);
                     else
-                        saveGame(player, ncrypt);
+                        saveGame(players.getPlayer(playerName), ncrypt);
                     System.exit(0);
                 }
 
