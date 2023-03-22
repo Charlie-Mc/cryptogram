@@ -10,6 +10,7 @@ public class Game {
 
     LetterCryptogram lcrypt;
     NumberCryptogram ncrypt;
+    // works
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Create a new game
