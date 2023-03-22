@@ -5,8 +5,11 @@ public class Game {
     //  private List<List<String>> encryption;
     int userInput;
     int KeyInputNumber = -1;
-    Player player;
+
     String blankPhrase;
+    Players players;
+
+    String playerName;
 
     LetterCryptogram lcrypt;
     NumberCryptogram ncrypt;
@@ -19,20 +22,31 @@ public class Game {
 
     public Game() throws IOException, ClassNotFoundException {
 
+        // Create a new player
+        players = new Players();
+        players.loadPlayerList();
         System.out.println("Do you want to enter a name to store your stats? y/n");
         Scanner sc = new Scanner(System.in);
         if (sc.nextLine().charAt(0) == 'y') {
             System.out.print("Please enter here:   ");
-            player = new Player(sc.nextLine());
-        } else player = new Player();
+            playerName = sc.nextLine();
+            if(players.isPlayer(playerName)){
+                players.addPlayer(players.loadPlayer(playerName));
+            }else{
+                players.addPlayer(new Player(playerName));
+                players.savePlayersList();
+            }
+        } else {players.loadPlayer("player");
+                playerName = "player";
+        }
 
         // gets the user input for the game version
-        if (new File(player.getUserName() + ".game_save").exists()) {
-            Cryptogram c = loadGame(player);
-            GameVersion(userInput, c, player);
+        if (new File(playerName + ".game_save").exists()) {
+            Cryptogram c = loadGame(players.getPlayer(playerName));
+            GameVersion(userInput, c, players.getPlayer(playerName));
         } else {
             userInput = getUserInput();
-            GameVersion(userInput, null, player);
+            GameVersion(userInput, null, players.getPlayer(playerName));
         }
         // runs that game version;
 
@@ -133,19 +147,19 @@ public class Game {
                 // checks if the user has won or lost
                 if (blankPhrase.equals(crypt.getPhrase())) {
                     System.out.println("\n you have won");
-                    player.addCryptogramsCompleted();
-                    player.addCryptogramsPlayed();
+                    players.getPlayer(playerName).addCryptogramsCompleted();
+                    players.getPlayer(playerName).addCryptogramsPlayed();
                     running = false;
                 } else if (!blankPhrase.contains("_")) {
                     System.out.println("\n you have lost");
-                    player.addCryptogramsPlayed();
+                    players.getPlayer(playerName).addCryptogramsPlayed();
                 }
 
             }
         }
-            System.out.println("Saving Details...");
-            player.saveDetails();
-            saveGame(player, crypt);
+            System.out.println();
+            players.getPlayer(playerName).saveDetails();
+            saveGame(players.getPlayer(playerName), crypt);
     }
 
 
@@ -181,7 +195,7 @@ public class Game {
                 choice = input.nextInt();
             } catch (InputMismatchException e) {
                 char c = input.nextLine().charAt(0);
-                player.saveDetails();
+                players.getPlayer(playerName).saveDetails();
                 System.exit(0);
             }
 
@@ -210,7 +224,7 @@ public class Game {
                     i = sc.nextInt();
                 } catch (InputMismatchException e) {
                     char c = sc.nextLine().charAt(0);
-                    player.saveDetails();
+                    players.getPlayer(playerName).saveDetails();
                     System.exit(0);
                 }
 
@@ -235,11 +249,11 @@ public class Game {
                 c = sc.nextLine().charAt(0);
 
                 if (c == '/') {
-                    player.saveDetails();
+                    players.getPlayer(playerName).saveDetails();
                     if (lcrypt != null)
-                        saveGame(player, lcrypt);
+                        saveGame(players.getPlayer(playerName), lcrypt);
                     else
-                        saveGame(player, ncrypt);
+                        saveGame(players.getPlayer(playerName), ncrypt);
                     System.exit(0);
                 }
 
@@ -271,11 +285,11 @@ public class Game {
                 c = sc.nextLine().charAt(0);
 
                 if (c == '/') {
-                    player.saveDetails();
+                    players.getPlayer(playerName).saveDetails();
                     if (lcrypt != null)
-                        saveGame(player, lcrypt);
+                        saveGame(players.getPlayer(playerName), lcrypt);
                     else
-                        saveGame(player, ncrypt);
+                        saveGame(players.getPlayer(playerName), ncrypt);
                     System.exit(0);
                 }
 
@@ -307,10 +321,10 @@ public class Game {
             }
             if(newInput){
                 if (crypt.getLetterEncryptionMap().get(keyInputChar) == letterInput) {
-                    player.addTotalGuesses();
-                    player.addCorrectGuesses();
+                    players.getPlayer(playerName).addTotalGuesses();
+                    players.getPlayer(playerName).addCorrectGuesses();
                 } else {
-                   player.addTotalGuesses();
+                    players.getPlayer(playerName).addTotalGuesses();
                 }
             }
             this.KeyInputNumber = crypt.getChatAt(keyInputChar);
@@ -326,10 +340,10 @@ public class Game {
 
             if (newInput){
                 if (crypt.getEncryptionMap().get(KeyInputNumber) == letterInput) {
-                    player.addTotalGuesses();
-                    player.addCorrectGuesses();
+                    players.getPlayer(playerName).addTotalGuesses();
+                    players.getPlayer(playerName).addCorrectGuesses();
                 } else {
-                    player.addTotalGuesses();
+                    players.getPlayer(playerName).addTotalGuesses();
                 }
             }
 

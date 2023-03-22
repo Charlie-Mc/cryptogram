@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Player {
@@ -28,6 +25,16 @@ public class Player {
         this.totalGuesses = 0;
         this.correctGuesses = 0;
     }
+
+    public Player(String name, double accuracy, int cryptogramsCompleted, int cryptogramsPlayed, int totalGuesses, int correctGuesses){
+        this.userName = name;
+        this.accuracy = accuracy;
+        this.cryptogramsCompleted = cryptogramsCompleted;
+        this.cryptogramsPlayed = cryptogramsPlayed;
+        this.totalGuesses = totalGuesses;
+        this.correctGuesses = correctGuesses;
+    }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -69,6 +76,7 @@ public class Player {
         this.correctGuesses += 1;
     }
 
+
     public void saveDetails() throws FileNotFoundException {
         try {
             File file;
@@ -80,11 +88,11 @@ public class Player {
 
             FileWriter writer = new FileWriter(file);
 
-            writer.write("accuracy = " + getAccuracy() + "\n");
-            writer.write("games completed = " + getCryptogramsCompleted() + "\n");
-            writer.write("games played = " + getCryptogramsPlayed() + "\n");
-            writer.write("total guesses = " + getTotalGuesses() + "\n");
-            writer.write("correct guesses = " + getCorrectGuesses() + "\n");
+            writer.write(getAccuracy() + "\n");
+            writer.write(getCryptogramsCompleted() + "\n");
+            writer.write(getCryptogramsPlayed() + "\n");
+            writer.write(getTotalGuesses() + "\n");
+            writer.write(getCorrectGuesses() + "\n");
             writer.close();
 
         } catch (IOException e) {
@@ -92,5 +100,32 @@ public class Player {
             e.printStackTrace();
         }
 
+    }
+
+    public Player loadPlayer(String userName){
+        try {
+            double accuracy = 0;
+            int cryptogramsComplete = 0;
+            int cryptogramsPlayed = 0;
+            int totalGuess= 0;
+            int correctGuess = 0;
+            Player player = null;
+            File file = new File(userName.toLowerCase().replace(' ', '_') + ".user_file");
+            Scanner fileInput = new Scanner(file);
+
+                accuracy = fileInput.nextDouble();
+                cryptogramsComplete = fileInput.nextInt();
+                cryptogramsPlayed = fileInput.nextInt();
+                totalGuess = fileInput.nextInt();
+                correctGuess = fileInput.nextInt();
+
+                fileInput.close();
+            player = new Player(userName,accuracy,cryptogramsComplete,cryptogramsPlayed, totalGuess, correctGuess);
+            return player;
+        } catch (Exception e) {
+            System.out.println("An error occured!");
+            e.printStackTrace();
+        }
+        return null;
     }
 }
