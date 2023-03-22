@@ -55,7 +55,8 @@ public class Game {
 
     public int fileInput() throws FileNotFoundException {
         File file = new File(playerName + ".input");
-        return (new Scanner(file).nextByte());
+        Scanner sc = new Scanner(file);
+        return sc.nextInt();
     }
 
     //checks if the user wants to replace that value
@@ -86,6 +87,7 @@ public class Game {
         boolean running = true;
         blankPhrase = crypt.getBlankPhrase();
         System.out.println(crypt.getCompleteEncryption());
+
         while (running) {
 
             System.out.println("keys: ");
@@ -389,18 +391,18 @@ public class Game {
 
     public void saveGame(Player p, Cryptogram c) throws IOException {
         String filename = p.getUserName() + ".game_save";
-        FileWriter writer = new FileWriter(p.getUserName() + ".input");
+        FileWriter writer = new FileWriter(p.getUserName() + ".input", false);
         writer.write(userInput + "\n");
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
         oos.writeObject(c);
+        writer.close();
+
     }
 
 
    public Cryptogram loadGame(Player p) throws IOException, ClassNotFoundException {
         String filename = p.getUserName() + ".game_save";
-        Scanner scan = new Scanner(p.getUserName() + ".input");
-        String input = scan.nextLine();
-        userInput = (int) input.charAt(0) - '0' - 50;
+        userInput = fileInput();
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
         return (Cryptogram) ois.readObject();
    }
