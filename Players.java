@@ -12,7 +12,6 @@ public class Players extends Player{
 
     public Players() {
         super();
-        allPlayers.add(loadPlayer("player"));
     }
 
     public void addPlayer(Player player) {
@@ -26,16 +25,16 @@ public class Players extends Player{
     }
     public Player getPlayer(String name) {
         for (Player player : allPlayers) {
-            if (player.getUserName().equals(name)) {
+            if (player.getUserName().equals(name.toLowerCase().replace(' ', '_'))) {
                 return player;
             }
         }
-        return null;
+        return new Player();
     }
 
     public boolean isPlayer(String name){
         for (String value: PlayerFile){
-            if (value.equals(name)){
+            if (value.equals(name.toLowerCase().replace(' ', '_'))){
                 return true;
             }
         }

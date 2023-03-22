@@ -27,7 +27,7 @@ public class Player {
     }
 
     public Player(String name, double accuracy, int cryptogramsCompleted, int cryptogramsPlayed, int totalGuesses, int correctGuesses){
-        this.userName = name;
+        this.userName = name.toLowerCase().replace(' ', '_');
         this.accuracy = accuracy;
         this.cryptogramsCompleted = cryptogramsCompleted;
         this.cryptogramsPlayed = cryptogramsPlayed;
@@ -36,7 +36,7 @@ public class Player {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.userName = userName.toLowerCase().replace(' ', '_');
     }
     public String getUserName() {
         return userName;
@@ -77,13 +77,16 @@ public class Player {
     }
 
 
-    public void saveDetails() throws FileNotFoundException {
+    public void saveDetails(int userInput) throws FileNotFoundException {
         try {
             File file;
+            File input;
             if (userName.equals("player")) {
                 file = new File("player.user_file");
+                input = new File("player.input");
             } else {
                 file = new File(userName + ".user_file");
+                input = new File(userName + ".input");
             }
 
             FileWriter writer = new FileWriter(file);
@@ -94,6 +97,9 @@ public class Player {
             writer.write(getTotalGuesses() + "\n");
             writer.write(getCorrectGuesses() + "\n");
             writer.close();
+
+            FileWriter inWriter = new FileWriter(input);
+            inWriter.write(userInput);
 
         } catch (IOException e) {
             System.out.println("An error occured!");
@@ -122,9 +128,8 @@ public class Player {
                 fileInput.close();
             player = new Player(userName,accuracy,cryptogramsComplete,cryptogramsPlayed, totalGuess, correctGuess);
             return player;
-        } catch (Exception e) {
-            System.out.println("An error occured!");
-            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            System.out.println("Player <" + userName + "> does not exist...");
         }
         return null;
     }
