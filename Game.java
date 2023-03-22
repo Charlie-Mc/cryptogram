@@ -268,7 +268,7 @@ public class Game {
             return c;
         } catch (IOException e) {
             System.out.println("Please enter a valid input");
-            return enterLetter(keySet, crypt);
+            return enterLetter(keySet);
         }
     }
 
