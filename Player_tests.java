@@ -9,7 +9,7 @@ public class Player_tests {
         Player a = new Player();
         Player b = new Player("testerb");
 
-        Assertions.assertNull(a.getUserName());
+        Assertions.assertNotNull(a);
         Assertions.assertEquals(b.getUserName(), "testerb");
     }
 
@@ -19,7 +19,7 @@ public class Player_tests {
         Player a = new Player();
         Player b = new Player("testerb");
 
-        Assertions.assertNull(a.getUserName());
+        Assertions.assertEquals("player",a.getUserName());
         Assertions.assertEquals(b.getUserName(), "testerb");
 
         a.setUserName("testera");
@@ -84,17 +84,16 @@ public class Player_tests {
     public void testToString() {
         Player a = new Player("tester");
 
-        Assertions.assertEquals(a.toString(), "Player{userName= 'tester', cryptogramsCompleted= 0, " +
-                "Accuracy= 0.0, cryptogramsPlayed= 0, totalGuesses= 0, correctGuesses= 0}");
+        Assertions.assertEquals( "Player{userName= 'tester', cryptogramsCompleted= 0, " +
+                "Accuracy= 0.0, cryptogramsPlayed= 0, totalGuesses= 0, correctGuesses= 0}",a.toString());
 
         a.setUserName("tester2");
-        a.setAccuracy(100.0);
         a.addCorrectGuesses();
         a.addTotalGuesses();
         a.addCryptogramsPlayed();
         a.addCryptogramsCompleted();
 
-        Assertions.assertEquals(a.toString(), "Player{userName= 'tester2', cryptogramsCompleted= 1, " +
-                "Accuracy= 100.0, cryptogramsPlayed= 1, totalGuesses= 1, correctGuesses= 1}");
+        Assertions.assertEquals("Player{userName= 'tester2', cryptogramsCompleted= 1, " +
+                "Accuracy= 1.0, cryptogramsPlayed= 1, totalGuesses= 1, correctGuesses= 1}", a.toString());
     }
 }

@@ -1,16 +1,8 @@
-/*
-TODO:
-    This is for the generate Branch, delete this comment when complete
- */
-
+import java.io.*;
 import java.util.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 
-public class Cryptogram {
+public class Cryptogram implements Serializable {
     static public ArrayList<Integer> completeEncryption = new ArrayList<>();
     public HashMap<Integer, Character> encryptionMap = new HashMap<>();
     private ArrayList<String> phrases = new ArrayList<>();
@@ -18,7 +10,6 @@ public class Cryptogram {
 
     private String phrase;
     private String BlankPhrase= " ";
-
 
     public Cryptogram() throws IOException {
     }
@@ -131,7 +122,7 @@ public class Cryptogram {
         String phrase;
         Random rand = new Random();
         int random_int = rand.nextInt(phrases.size());
-        return phrase= phrases.get(random_int);
+        return phrase = phrases.get(random_int);
     }
 
     protected String generateBlankPhrase(String phrase) {

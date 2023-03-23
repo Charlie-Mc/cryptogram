@@ -9,7 +9,7 @@ public class generationTest {
 
     @Test
     public void testLetterCryptogram() throws IOException {
-        letterCryptogram Lcryptogram = new letterCryptogram ();
+         LetterCryptogram Lcryptogram= new LetterCryptogram ();
         Assertions.assertNotNull(Lcryptogram);
 
         Assertions.assertNotNull(Lcryptogram.getLetterEncryptionMap());
@@ -24,7 +24,7 @@ public class generationTest {
 
     @Test
     public void testNumberCryptogram() throws IOException {
-        numberCryptogram Ncryptogram = new numberCryptogram ();
+        NumberCryptogram Ncryptogram = new NumberCryptogram ();
         Assertions.assertNotNull(Ncryptogram);
 
         Assertions.assertNotNull(Ncryptogram.getEncryptionMap());

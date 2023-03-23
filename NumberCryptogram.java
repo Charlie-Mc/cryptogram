@@ -3,13 +3,13 @@ import java.util.HashMap;
 
 
 
-public class numberCryptogram extends Cryptogram{
+public class NumberCryptogram extends Cryptogram{
 
     HashMap <Integer, Character> UsersInput = new HashMap<>();
     private String phrase;
     private String blankPhrase;
 
-    public numberCryptogram()throws IOException {
+    public NumberCryptogram()throws IOException {
         super();
         FileReader("phrases.txt");
         phrase = choosePhrase();
@@ -31,7 +31,7 @@ public class numberCryptogram extends Cryptogram{
     }
     @Override
     public HashMap<Integer, Character> getEncryptionMap() {
-        return UsersInput;
+        return encryptionMap;
     }
 
     @Override

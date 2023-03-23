@@ -1,37 +1,76 @@
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Game {
     //  private List<List<String>> encryption;
     int userInput;
     int KeyInputNumber = -1;
-    Player player = new Player();
+
     String blankPhrase;
+    Players players;
 
+    String playerName;
+    Player player;
 
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Create a new game
-        Game game = new Game();
+        new Game();
+    }
+
+    public Game() throws IOException, ClassNotFoundException {
+
+        // Create a new player
+        players = new Players();
+        players.loadPlayerList();
+        System.out.println("Do you want to enter a name to store your stats? y/n");
+        Scanner sc = new Scanner(System.in);
+        if (sc.nextLine().charAt(0) == 'y') {
+            System.out.print("Please enter here:   ");
+            playerName = sc.nextLine();
+            if (players.isPlayer(playerName)) {
+                players.addPlayer(players.loadPlayer(playerName));
+            } else {
+                players.addPlayer(new Player(playerName));
+                players.savePlayersList();
+            }
+        } else {
+            players.loadPlayer("player");
+            playerName = "player";
+        }
+
+        player = players.getPlayer(playerName);
+
+        /**
+        // if the save game gets fixed to properly save completeEncryption, this will be used
+         */
+     /*   // gets the user input for the game version
+        if (new File(playerName + ".game_save").exists() && new File(playerName + ".input").exists()) {
+           Cryptogram c = loadGame(player);
+            userInput = fileInput();
+            GameVersion(userInput, c, player);
+        } else {
+            userInput = getUserInput();
+            GameVersion(userInput, null, player);
+        } */
+
+        userInput = getUserInput();
+        GameVersion(userInput, null, player);
+        // runs that game version;
 
     }
 
-    public Game() throws IOException {
-
-        // gets the user input for the game version
-        userInput = getUserInput();
-        // runs that game version
-        GameVersion(userInput);
-
-
+    public int fileInput() throws FileNotFoundException {
+        File file = new File(playerName + ".input");
+        Scanner sc = new Scanner(file);
+        return sc.nextInt();
     }
 
     //checks if the user wants to replace that value
-    private boolean inputCheck(){
+    private boolean inputCheck(Cryptogram crypt) throws FileNotFoundException {
         System.out.println("you have already allocated a value to this key, do you want to replace it? (y/n)");
         char replace = ' ';
         do {
-            replace = enterLetter();
+            replace = enterLetter(crypt);
             replace = Character.toLowerCase(replace);
             if (replace != 'y' && replace != 'n'){
                 System.out.println("please enter a valid input");
@@ -54,6 +93,7 @@ public class Game {
         boolean running = true;
         blankPhrase = crypt.getBlankPhrase();
         System.out.println(crypt.getCompleteEncryption());
+
         while (running) {
 
             System.out.println("keys: ");
@@ -80,8 +120,7 @@ public class Game {
             System.out.println("phrase: " + crypt.getPhrase());
             System.out.println("current phrase: " + blankPhrase);
             System.out.println("enter a letter or enter - to remove a mapping");
-
-            char letterInput = enterLetter();
+            char letterInput = enterLetter(crypt);
             char keyInputChar = '_';
 
             // the undo button//
@@ -109,7 +148,7 @@ public class Game {
                 UserMap = gameInput(UserMap, keySet, keyInputChar, letterInput, crypt, true);
 
 
-                // prints out the keys and whats mapped to them
+                // prints out the keys and what's mapped to them
                 int i = 0;
                 for (Object values : UserMap.values()) {
                     System.out.print("key: " + keySet.get(i) + "-" + values + "| ");
@@ -133,29 +172,43 @@ public class Game {
             }
         }
             System.out.println();
-        }
+            player.saveDetails(userInput);
+            saveGame(player, crypt);
+    }
 
 
-    private void GameVersion(int userInput) throws IOException {
-        HashMap completeEncryptionMap;
+    private void GameVersion(int userInput, Cryptogram c, Player p) throws IOException {
         if (userInput == 1) {
-            letterCryptogram crypt = new letterCryptogram();
-            playGame(crypt);
+            if (c == null) {
+                c = new LetterCryptogram();
+            }
+            playGame(c);
         }
         if (userInput == 2) {
-            numberCryptogram crypt = new numberCryptogram();
-            playGame(crypt);
+
+            if (c == null) {
+                c = new NumberCryptogram();
+            }
+            playGame(c);
         }
     }
 
-    private int getUserInput() {
+    private int getUserInput() throws FileNotFoundException {
         int choice = 0;
         boolean correctInput = false;
+        System.out.println("Enter / at any time to quit the game");
+        System.out.println("Enter ? at any time to show the answer");
         do {
-
             System.out.println("Please enter 1 to play a letter cryptogram or 2 to play a number cryptogram");
             Scanner input = new Scanner(System.in);
-            choice = input.nextInt();
+            try {
+                choice = input.nextInt();
+            } catch (InputMismatchException e) {
+                char c = input.nextLine().charAt(0);
+                player.saveDetails(userInput);
+                System.exit(0);
+            }
+
             input.nextLine();
 
             if (choice == 1 || choice == 2){
@@ -171,13 +224,21 @@ public class Game {
 
 
 
-    public int enterNumber(ArrayList<Integer> keySet) {
+    public int enterNumber(ArrayList<Integer> keySet) throws FileNotFoundException{
 
         try {
             int i = 0;
             do {
                 Scanner sc = new Scanner(System.in);
-                i = sc.nextInt();
+                try {
+                    i = sc.nextInt();
+                } catch (InputMismatchException e) {
+                    char c = sc.nextLine().charAt(0);
+                    player.saveDetails(userInput);
+                    System.exit(0);
+                }
+
+
                 if (!keySet.contains(i)){
                     System.out.println("key in not in the list, please enter a valid key");
                 }
@@ -189,13 +250,28 @@ public class Game {
         }
 
     }
-    public char enterLetter(ArrayList<Character> keySet) {
+    public char enterLetter(ArrayList<Character> keySet, Cryptogram crypt) throws FileNotFoundException, InputMismatchException{
         // takes in user input
         try {
             char c = ' ';
             do {
                 Scanner sc = new Scanner(System.in);
                 c = sc.nextLine().charAt(0);
+
+                if (c == '/') {
+                    player.saveDetails(userInput);
+                    if (crypt != null)
+                        saveGame(players.getPlayer(playerName), crypt);
+                    else
+                        saveGame(players.getPlayer(playerName), null);
+                    System.exit(0);
+                }
+
+                if (c == '?') {
+                    System.out.println("showing solution ...");
+                    return c;
+                }
+
                 if (!keySet.contains(c)) {
                     System.out.println("key in not in the list, please enter a valid key");
                 }
@@ -204,35 +280,50 @@ public class Game {
                 }
             } while (!Character.isLetter(c) || !keySet.contains(c));
             return c;
-        } catch (InputMismatchException e) {
+        } catch (IOException e) {
             System.out.println("Please enter a valid input");
-            return enterLetter(keySet);
+            return enterLetter(keySet, crypt);
         }
     }
 
-    public char enterLetter() {
+    public char enterLetter(Cryptogram crypt) throws FileNotFoundException, InputMismatchException{
         // takes in user input
         try {
             char c = ' ';
             do {
                 Scanner sc = new Scanner(System.in);
                 c = sc.nextLine().charAt(0);
+
+                if (c == '/') {
+                    player.saveDetails(userInput);
+                    if (crypt != null)
+                        saveGame(players.getPlayer(playerName), crypt);
+                    else
+                        saveGame(players.getPlayer(playerName), null);
+                    System.exit(0);
+                }
+
+                if (c == '?') {
+                    System.out.println("showing solution ...");
+                    return c;
+                }
+
                 if (!Character.isLetter(c) && c != '-') {
                     System.out.println("Please enter a letter");
                 }
             } while (!Character.isLetter(c) && c != '-');
             return c;
-        } catch (InputMismatchException e) {
+        } catch (IOException e) {
             System.out.println("Please enter a valid input");
-            return enterLetter();
+            return enterLetter(crypt);
         }
     }
 
-    private HashMap gameInput(HashMap UserMap, ArrayList keySet, char keyInputChar, char letterInput, Cryptogram crypt, boolean newInput){
+    private HashMap gameInput(HashMap UserMap, ArrayList keySet, char keyInputChar, char letterInput, Cryptogram crypt, boolean newInput) throws FileNotFoundException {
         if (userInput == 1) {
-            keyInputChar = enterLetter(keySet);
+            keyInputChar = enterLetter(keySet, crypt);
             if (!UserMap.get(keyInputChar).equals('_')) {
-                if (inputCheck()) {
+                if (inputCheck(crypt)) {
                     UserMap.replace(keyInputChar, letterInput);
                 }
             } else {
@@ -243,14 +334,14 @@ public class Game {
                     player.addTotalGuesses();
                     player.addCorrectGuesses();
                 } else {
-                   player.addTotalGuesses();
+                    player.addTotalGuesses();
                 }
             }
             this.KeyInputNumber = crypt.getChatAt(keyInputChar);
         } else {
             KeyInputNumber = enterNumber(keySet);
             if (!UserMap.get(KeyInputNumber).equals('_')) {
-                if (inputCheck()) {
+                if (inputCheck(crypt)) {
                     UserMap.replace(KeyInputNumber, letterInput);
                 }
             } else {
@@ -258,7 +349,8 @@ public class Game {
             }
 
             if (newInput){
-                if (crypt.getEncryptionMap().get(KeyInputNumber) == letterInput) {
+                char l = crypt.getEncryptionMap().get(KeyInputNumber);
+                if (crypt.getEncryptionMap().get(KeyInputNumber).equals(letterInput)) {
                     player.addTotalGuesses();
                     player.addCorrectGuesses();
                 } else {
@@ -303,13 +395,22 @@ public class Game {
             }
         }
     }
+
+    public void saveGame(Player p, Cryptogram c) throws IOException {
+        String filename = p.getUserName() + ".game_save";
+        FileWriter writer = new FileWriter(p.getUserName() + ".input", false);
+        writer.write(userInput + "\n");
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
+        oos.writeObject(c);
+        writer.close();
+
+    }
+
+
+   public Cryptogram loadGame(Player p) throws IOException, ClassNotFoundException {
+        String filename = p.getUserName() + ".game_save";
+        userInput = fileInput();
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
+        return (Cryptogram) ois.readObject();
+   }
 }
-
-
-
-
-//TODO: create cryptogram generator, dont forget to update gui when complete
-
-
-
-
