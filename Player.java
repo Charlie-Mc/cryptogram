@@ -58,6 +58,10 @@ public class Player {
         return accuracy;
     }
 
+    public void setAccuracy(double accuracy) {
+        this.accuracy = accuracy;
+    }
+
     public int getCryptogramsPlayed() {
         return cryptogramsPlayed;
     }
