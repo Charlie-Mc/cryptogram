@@ -349,7 +349,8 @@ public class Game {
             }
 
             if (newInput){
-                if (crypt.getEncryptionMap().get(KeyInputNumber) == letterInput) {
+                char l = crypt.getEncryptionMap().get(KeyInputNumber);
+                if (crypt.getEncryptionMap().get(KeyInputNumber).equals(letterInput)) {
                     player.addTotalGuesses();
                     player.addCorrectGuesses();
                 } else {
