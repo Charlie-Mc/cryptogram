@@ -10,6 +10,7 @@ public class Player {
     int cryptogramsPlayed;
     int cryptogramsCompleted;
 
+    /* Empty Constructor Method */
     public Player() {
         this.accuracy = 0.00;
         this.cryptogramsCompleted = 0;
@@ -17,6 +18,8 @@ public class Player {
         this.totalGuesses = 0;
         this.correctGuesses = 0;
     }
+
+    /* Constructor Method with name input*/
     public Player(String name) {
         this.userName = name.toLowerCase().replace(' ', '_');
         this.accuracy = 0.00;
@@ -132,5 +135,19 @@ public class Player {
             System.out.println("Player <" + userName + "> does not exist...");
         }
         return null;
+    }
+
+    public String toString() {
+        if (userName == null) {
+            return "Player is missing a username";
+        }
+        return "Player{" +
+                "userName= '" + getUserName() + '\'' +
+                ", cryptogramsCompleted= " + getCryptogramsCompleted() +
+                ", Accuracy= " + getAccuracy() +
+                ", cryptogramsPlayed= " + getCryptogramsPlayed() +
+                ", totalGuesses= " + getTotalGuesses() +
+                ", correctGuesses= " + getCorrectGuesses() +
+                '}';
     }
 }
