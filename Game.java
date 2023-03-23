@@ -40,15 +40,21 @@ public class Game {
 
         player = players.getPlayer(playerName);
 
-        // gets the user input for the game version
+        /**
+        // if the save game gets fixed to properly save completeEncryption, this will be used
+         */
+     /*   // gets the user input for the game version
         if (new File(playerName + ".game_save").exists() && new File(playerName + ".input").exists()) {
-            Cryptogram c = loadGame(player);
+           Cryptogram c = loadGame(player);
             userInput = fileInput();
             GameVersion(userInput, c, player);
         } else {
             userInput = getUserInput();
             GameVersion(userInput, null, player);
-        }
+        } */
+
+        userInput = getUserInput();
+        GameVersion(userInput, null, player);
         // runs that game version;
 
     }
