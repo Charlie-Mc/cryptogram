@@ -1,3 +1,4 @@
+import javax.swing.plaf.synth.SynthSpinnerUI;
 import java.io.*;
 import java.util.*;
 
@@ -18,10 +19,8 @@ public class Game {
     }
 
     public Game() throws IOException, ClassNotFoundException {
-
         // Create a new player
         players = new Players();
-        players.loadPlayerList();
         System.out.println("Do you want to enter a name to store your stats? y/n");
         Scanner sc = new Scanner(System.in);
         if (sc.nextLine().charAt(0) == 'y') {
@@ -31,17 +30,17 @@ public class Game {
                 players.addPlayer(players.loadPlayer(playerName));
             } else {
                 players.addPlayer(new Player(playerName));
-                players.savePlayersList();
+                players.loadPlayerList(); // load updated player list
             }
         } else {
             players.loadPlayer("player");
             playerName = "player";
         }
-
         player = players.getPlayer(playerName);
+        players.savePlayersList();
 
         /**
-        // if the save game gets fixed to properly save completeEncryption, this will be used
+         // if the save game gets fixed to properly save completeEncryption, this will be used
          */
      /*   // gets the user input for the game version
         if (new File(playerName + ".game_save").exists() && new File(playerName + ".input").exists()) {
@@ -60,7 +59,7 @@ public class Game {
     }
 
     public int fileInput() throws FileNotFoundException {
-        File file = new File(playerName + ".input");
+        File file = new File("user_files/" + playerName + ".input");
         Scanner sc = new Scanner(file);
         return sc.nextInt();
     }
@@ -72,18 +71,17 @@ public class Game {
         do {
             replace = enterLetter(crypt);
             replace = Character.toLowerCase(replace);
-            if (replace != 'y' && replace != 'n'){
+            if (replace != 'y' && replace != 'n') {
                 System.out.println("please enter a valid input");
             }
         } while (replace != 'y' && replace != 'n');
 
-        if (replace == 'y'){
+        if (replace == 'y') {
             return true;
-        } else{
+        } else {
             return false;
         }
     }
-
 
 
     public void playGame(Cryptogram crypt) throws IOException {
@@ -171,9 +169,9 @@ public class Game {
 
             }
         }
-            System.out.println();
-            player.saveDetails(userInput);
-            saveGame(player, crypt);
+        System.out.println();
+        player.saveDetails(userInput);
+        saveGame(player, crypt);
     }
 
 
@@ -198,6 +196,7 @@ public class Game {
         boolean correctInput = false;
         System.out.println("Enter / at any time to quit the game");
         System.out.println("Enter ? at any time to show the answer");
+        System.out.println("Enter # at any time to show the top ten player scoreboard");
         do {
             System.out.println("Please enter 1 to play a letter cryptogram or 2 to play a number cryptogram");
             Scanner input = new Scanner(System.in);
@@ -211,10 +210,9 @@ public class Game {
 
             input.nextLine();
 
-            if (choice == 1 || choice == 2){
+            if (choice == 1 || choice == 2) {
                 correctInput = true;
-            }
-            else {
+            } else {
                 System.out.println("Please enter a valid input");
             }
         } while (!correctInput);
@@ -223,8 +221,7 @@ public class Game {
     }
 
 
-
-    public int enterNumber(ArrayList<Integer> keySet) throws FileNotFoundException{
+    public int enterNumber(ArrayList<Integer> keySet) throws FileNotFoundException {
 
         try {
             int i = 0;
@@ -239,10 +236,10 @@ public class Game {
                 }
 
 
-                if (!keySet.contains(i)){
+                if (!keySet.contains(i)) {
                     System.out.println("key in not in the list, please enter a valid key");
                 }
-            }while(!keySet.contains(i));
+            } while (!keySet.contains(i));
             return i;
         } catch (InputMismatchException e) {
             System.out.println("Please enter a valid input");
@@ -250,7 +247,8 @@ public class Game {
         }
 
     }
-    public char enterLetter(ArrayList<Character> keySet, Cryptogram crypt) throws FileNotFoundException, InputMismatchException{
+
+    public char enterLetter(ArrayList<Character> keySet, Cryptogram crypt) throws FileNotFoundException, InputMismatchException {
         // takes in user input
         try {
             char c = ' ';
@@ -270,6 +268,10 @@ public class Game {
                 if (c == '?') {
                     System.out.println("showing solution ...");
                     return c;
+                }
+
+                if (c == '#') {
+                    displayTopTen();
                 }
 
                 if (!keySet.contains(c)) {
@@ -286,7 +288,7 @@ public class Game {
         }
     }
 
-    public char enterLetter(Cryptogram crypt) throws FileNotFoundException, InputMismatchException{
+    public char enterLetter(Cryptogram crypt) throws FileNotFoundException, InputMismatchException {
         // takes in user input
         try {
             char c = ' ';
@@ -306,6 +308,10 @@ public class Game {
                 if (c == '?') {
                     System.out.println("showing solution ...");
                     return c;
+                }
+
+                if (c == '#') {
+                    displayTopTen();
                 }
 
                 if (!Character.isLetter(c) && c != '-') {
@@ -329,7 +335,7 @@ public class Game {
             } else {
                 UserMap.replace(keyInputChar, letterInput);
             }
-            if(newInput){
+            if (newInput) {
                 if (crypt.getLetterEncryptionMap().get(keyInputChar) == letterInput) {
                     player.addTotalGuesses();
                     player.addCorrectGuesses();
@@ -348,7 +354,7 @@ public class Game {
                 UserMap.replace(KeyInputNumber, letterInput);
             }
 
-            if (newInput){
+            if (newInput) {
                 char l = crypt.getEncryptionMap().get(KeyInputNumber);
                 if (crypt.getEncryptionMap().get(KeyInputNumber).equals(letterInput)) {
                     player.addTotalGuesses();
@@ -362,7 +368,7 @@ public class Game {
         return UserMap;
     }
 
-    private void updateBlankPhrase(HashMap UserMap, Cryptogram crypt){
+    private void updateBlankPhrase(HashMap UserMap, Cryptogram crypt) {
         if (userInput == 1) {
             for (char key : crypt.getLetterEncryptionMap().keySet()) {
                 int counter = 0;
@@ -397,8 +403,8 @@ public class Game {
     }
 
     public void saveGame(Player p, Cryptogram c) throws IOException {
-        String filename = p.getUserName() + ".game_save";
-        FileWriter writer = new FileWriter(p.getUserName() + ".input", false);
+        String filename = "user_files/" + p.getUserName() + ".game_save";
+        FileWriter writer = new FileWriter("user_files/" + p.getUserName() + ".input", false);
         writer.write(userInput + "\n");
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
         oos.writeObject(c);
@@ -406,11 +412,15 @@ public class Game {
 
     }
 
-
-   public Cryptogram loadGame(Player p) throws IOException, ClassNotFoundException {
-        String filename = p.getUserName() + ".game_save";
+    public Cryptogram loadGame(Player p) throws IOException, ClassNotFoundException {
+        String filename = "user_files/" + p.getUserName() + ".game_save";
         userInput = fileInput();
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
         return (Cryptogram) ois.readObject();
-   }
+    }
+
+    public void displayTopTen() {
+        System.out.println(players.getAllPlayers());
+        System.out.println("yo");
+    }
 }

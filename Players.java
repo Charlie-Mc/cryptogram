@@ -15,7 +15,9 @@ public class Players extends Player{
     }
 
     public void addPlayer(Player player) {
-        allPlayers.add(player);
+        if (!allPlayers.contains(player)) {
+            allPlayers.add(player);
+        }
     }
     public void removePlayer(Player player) {
         allPlayers.remove(player);
@@ -23,6 +25,7 @@ public class Players extends Player{
     public ArrayList<Player> getAllPlayers() {
         return allPlayers;
     }
+
     public Player getPlayer(String name) {
         for (Player player : allPlayers) {
             if (player.getUserName().equals(name.toLowerCase().replace(' ', '_'))) {
@@ -51,13 +54,7 @@ public class Players extends Player{
 
     public void savePlayersList() {
         try {
-            File file;
-            if (allPlayers.size() != 0) {
-                file = new File("playerList.user_file");
-            }else{
-                return;
-            }
-            // overwrite the file
+            File file = new File("user_files/playerList.user_file");
             FileWriter writer = new FileWriter(file, false);
             for (Player player : allPlayers) {
                 writer.write(player.getUserName() + "\n");
@@ -70,14 +67,20 @@ public class Players extends Player{
         }
     }
 
+
+
     public void loadPlayerList(){
         // load in the player list
         try {
-            File file = new File("playerList.user_file");
+            File file = new File("user_files/playerList.user_file");
             Scanner fileInput = new Scanner(file);
             while (fileInput.hasNextLine()) {
                 String line = fileInput.nextLine();
-                PlayerFile.add(line);
+                if (line != null) {
+                    PlayerFile.add(line);
+                    Player p = new Player(line);
+                    allPlayers.add(p);
+                }
             }
 
         } catch (Exception e) {
@@ -86,6 +89,4 @@ public class Players extends Player{
         }
 
     }
-
-
 }

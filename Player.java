@@ -89,11 +89,11 @@ public class Player {
             File file;
             File input;
             if (userName.equals("player")) {
-                file = new File("player.user_file");
-                input = new File("player.input");
+                file = new File("user_files/player.user_file");
+                input = new File("user_files/player.input");
             } else {
-                file = new File(userName + ".user_file");
-                input = new File(userName + ".input");
+                file = new File("user_files/" + userName + ".user_file");
+                input = new File("user_files/" + userName + ".input");
             }
 
             FileWriter writer = new FileWriter(file);
