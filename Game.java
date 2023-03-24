@@ -271,7 +271,7 @@ public class Game {
                 }
 
                 if (c == '#') {
-                    displayTopTen();
+                    players.getTop10();
                 }
 
                 if (!keySet.contains(c)) {
@@ -311,7 +311,7 @@ public class Game {
                 }
 
                 if (c == '#') {
-                    displayTopTen();
+                    players.getTop10();
                 }
 
                 if (!Character.isLetter(c) && c != '-') {
@@ -417,10 +417,5 @@ public class Game {
         userInput = fileInput();
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
         return (Cryptogram) ois.readObject();
-    }
-
-    public void displayTopTen() {
-        System.out.println(players.getAllPlayers());
-        System.out.println("yo");
     }
 }

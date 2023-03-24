@@ -2,10 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
-public class Players extends Player{
+public class Players extends Player {
 
     ArrayList<Player> allPlayers = new ArrayList<>();
     ArrayList<String> PlayerFile = new ArrayList<>();
@@ -54,7 +53,13 @@ public class Players extends Player{
 
     public void savePlayersList() {
         try {
-            File file = new File("user_files/playerList.user_file");
+            File file;
+            if (allPlayers.size() != 0) {
+                file = new File("user_files/playerList.user_file");
+            }else{
+                return;
+            }
+            // overwrite the file
             FileWriter writer = new FileWriter(file, false);
             for (Player player : allPlayers) {
                 writer.write(player.getUserName() + "\n");
@@ -67,8 +72,6 @@ public class Players extends Player{
         }
     }
 
-
-
     public void loadPlayerList(){
         // load in the player list
         try {
@@ -77,11 +80,19 @@ public class Players extends Player{
             while (fileInput.hasNextLine()) {
                 String line = fileInput.nextLine();
                 if (line != null) {
-                    PlayerFile.add(line);
-                    Player p = new Player(line);
-                    allPlayers.add(p);
+                    File newFile = new File("user_files/" + line + ".user_file");
+                    if (newFile.exists()) {
+                        Player p = loadPlayer(line);
+                        allPlayers.add(p);
+                    } else {
+                        PlayerFile.add(line);
+                        Player p = new Player(line);
+//                      p = fillPlayerDetails(p);
+                        allPlayers.add(p);
+                    }
                 }
             }
+
 
         } catch (Exception e) {
             System.out.println("An error occured!");
@@ -89,4 +100,27 @@ public class Players extends Player{
         }
 
     }
+
+
+    public void getTop10() {
+        ArrayList<Player> top10 = new ArrayList<>(allPlayers);
+        // sort the list by cryptogramsCompleted
+        Collections.sort(top10, new Comparator<Player>() {
+            public int compare(Player p1, Player p2) {
+                return p2.cryptogramsCompleted - p1.cryptogramsCompleted;
+            }
+        });
+
+        // reduce size of list to 10
+        if (top10.size() > 10) {
+            top10.subList(10, top10.size()).clear();
+        }
+
+        System.out.println("\nThe Top Ten Scoreboard:\n");
+        for (int i = 0; i < top10.size(); i++) {
+            System.out.println((i + 1) + ". " + top10.get(i).getUserName() + " with " + top10.get(i).getCryptogramsCompleted() + " completions.");
+        }
+        System.out.println("\n===============\n");
+    }
+
 }

@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c499cc9-6324-478a-a9c7-29cf86a06652" name="Changes" comment="">
+    <list default="true" id="2c499cc9-6324-478a-a9c7-29cf86a06652" name="Changes" comment="Added a new folder to store user_files in to reduce file clutter, made some changes to player saving to the Players class">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Players.java" beforeDir="false" afterPath="$PROJECT_DIR$/Players.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/cryptogram/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/cryptogram/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/cryptogram/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/Players.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/cryptogram/Players.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/user_files/adam.game_save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/user_files/adam.input" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/user_files/adam.user_file" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/user_files/charlie.game_save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/user_files/charlie.input" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/user_files/charlie.user_file" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/cryptogram/user_files/playerList.user_file" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/cryptogram/user_files/playerList.user_file" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_files/adam.game_save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_files/adam.input" beforeDir="false" afterPath="$PROJECT_DIR$/user_files/player.input" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_files/adam.user_file" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_files/charlie.game_save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_files/charlie.input" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_files/charlie.user_file" beforeDir="false" afterPath="$PROJECT_DIR$/user_files/player.user_file" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_files/playerList.user_file" beforeDir="false" afterPath="$PROJECT_DIR$/user_files/playerList.user_file" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,14 +49,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/adamd/IntelliJ/CS207/cryptogram&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\adamd\IntelliJ\CS207\cryptogram\user_files" />
+      <recent name="C:\Users\adamd\IntelliJ\CS207\cryptogram" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Game" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Game" />
@@ -55,11 +90,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679663262831</updated>
-      <workItem from="1679663264107" duration="92000" />
+      <workItem from="1679663264107" duration="15321000" />
+      <workItem from="1679682448413" duration="480000" />
+      <workItem from="1679682945061" duration="36000" />
     </task>
+    <task id="LOCAL-00001" summary="Added a new folder to store user_files in to reduce file clutter, made some changes to player saving to the Players class">
+      <created>1679672937742</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1679672937742</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added a new folder to store user_files in to reduce file clutter, made some changes to player saving to the Players class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a new folder to store user_files in to reduce file clutter, made some changes to player saving to the Players class" />
   </component>
 </project>
