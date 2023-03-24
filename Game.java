@@ -17,6 +17,7 @@ public class Game {
         new Game();
     }
 
+    public Game(boolean test){}
     public Game() throws IOException, ClassNotFoundException {
 
         // Create a new player
@@ -117,12 +118,17 @@ public class Game {
 
             // start of game
             System.out.println();
-            System.out.println("phrase: " + crypt.getPhrase());
             System.out.println("current phrase: " + blankPhrase);
             System.out.println("enter a letter or enter - to remove a mapping");
             char letterInput = enterLetter(crypt);
             char keyInputChar = '_';
 
+            if (letterInput == '?'){
+                System.out.println("the phrase is: " + crypt.getPhrase());
+                showSolution(crypt,UserMap);
+                running = false;
+                continue;
+            }
             // the undo button//
             if (letterInput == '-') {
                 if (UserMap.isEmpty()) {
@@ -317,6 +323,7 @@ public class Game {
             System.out.println("Please enter a valid input");
             return enterLetter(crypt);
         }
+
     }
 
     private HashMap gameInput(HashMap UserMap, ArrayList keySet, char keyInputChar, char letterInput, Cryptogram crypt, boolean newInput) throws FileNotFoundException {
@@ -413,4 +420,18 @@ public class Game {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
         return (Cryptogram) ois.readObject();
    }
+
+    public HashMap showSolution(Cryptogram crypt, HashMap UserMap){
+        System.out.println("the phrase is: " + crypt.getPhrase());
+        if (userInput == 1){
+            UserMap = crypt.getLetterEncryptionMap();
+        } else {
+            UserMap = crypt.getEncryptionMap();
+        }
+        System.out.println("updating current phrase and exiting");
+        updateBlankPhrase(UserMap, crypt);
+        System.out.println("current phrase: " + blankPhrase);
+
+        return UserMap;
+    }
 }
