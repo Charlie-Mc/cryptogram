@@ -1,9 +1,7 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Players extends Player{
 
@@ -84,8 +82,24 @@ public class Players extends Player{
             System.out.println("An error occured!");
             e.printStackTrace();
         }
-
     }
 
+    public void getHints(Cryptogram crypt) {
+        HashMap<Character, Character> letterUserMap = crypt.getLetterUserMap();
+        ArrayList<Character> keySet = new ArrayList<Character>(letterUserMap.keySet());
+        Random random = new Random();
+        char letterToReplace;
+        char hintLetter;
 
+        do {
+            letterToReplace = keySet.get(random.nextInt(keySet.size()));
+        } while (!letterUserMap.get(letterToReplace).equals('_'));
+
+        hintLetter = crypt.getLetterEncryptionMap().get(letterToReplace);
+
+        letterUserMap.replace(letterToReplace, hintLetter);
+        crypt.setLetterUserMap(letterUserMap);
+
+        System.out.println("Hint: Replace the letter '" + letterToReplace + "' with '" + hintLetter + "'");
+    }
 }
