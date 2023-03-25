@@ -3,7 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-public class Players extends Player{
+public class Players extends Player {
 
     ArrayList<Player> allPlayers = new ArrayList<>();
     ArrayList<String> PlayerFile = new ArrayList<>();
@@ -15,12 +15,15 @@ public class Players extends Player{
     public void addPlayer(Player player) {
         allPlayers.add(player);
     }
+
     public void removePlayer(Player player) {
         allPlayers.remove(player);
     }
+
     public ArrayList<Player> getAllPlayers() {
         return allPlayers;
     }
+
     public Player getPlayer(String name) {
         for (Player player : allPlayers) {
             if (player.getUserName().equals(name.toLowerCase().replace(' ', '_'))) {
@@ -30,9 +33,9 @@ public class Players extends Player{
         return new Player();
     }
 
-    public boolean isPlayer(String name){
-        for (String value: PlayerFile){
-            if (value.equals(name.toLowerCase().replace(' ', '_'))){
+    public boolean isPlayer(String name) {
+        for (String value : PlayerFile) {
+            if (value.equals(name.toLowerCase().replace(' ', '_'))) {
                 return true;
             }
         }
@@ -52,7 +55,7 @@ public class Players extends Player{
             File file;
             if (allPlayers.size() != 0) {
                 file = new File("playerList.user_file");
-            }else{
+            } else {
                 return;
             }
             // overwrite the file
@@ -68,7 +71,7 @@ public class Players extends Player{
         }
     }
 
-    public void loadPlayerList(){
+    public void loadPlayerList() {
         // load in the player list
         try {
             File file = new File("playerList.user_file");
@@ -85,21 +88,42 @@ public class Players extends Player{
     }
 
     public void getHints(Cryptogram crypt) {
-        HashMap<Character, Character> letterUserMap = crypt.getLetterUserMap();
-        ArrayList<Character> keySet = new ArrayList<Character>(letterUserMap.keySet());
-        Random random = new Random();
-        char letterToReplace;
-        char hintLetter;
+        if (crypt instanceof LetterCryptogram) {
+            HashMap<Character, Character> letterUserMap = crypt.getLetterUserMap();
+            ArrayList<Character> keySet = new ArrayList<Character>(letterUserMap.keySet());
+            Random random = new Random();
+            char letterToReplace;
+            char hintLetter;
 
-        do {
-            letterToReplace = keySet.get(random.nextInt(keySet.size()));
-        } while (!letterUserMap.get(letterToReplace).equals('_'));
+            do {
+                letterToReplace = keySet.get(random.nextInt(keySet.size()));
+            } while (!letterUserMap.get(letterToReplace).equals('_'));
 
-        hintLetter = crypt.getLetterEncryptionMap().get(letterToReplace);
+            hintLetter = crypt.getLetterEncryptionMap().get(letterToReplace);
 
-        letterUserMap.replace(letterToReplace, hintLetter);
-        crypt.setLetterUserMap(letterUserMap);
+            letterUserMap.replace(letterToReplace, hintLetter);
+            crypt.setLetterUserMap(letterUserMap);
 
-        System.out.println("Hint: Replace the letter '" + letterToReplace + "' with '" + hintLetter + "'");
+            System.out.println("Hint: Replace the letter '" + letterToReplace + "' with '" + hintLetter + "'");
+        } else if (crypt instanceof NumberCryptogram) {
+            HashMap<Integer, Character> userMap = crypt.getUserMap();
+            ArrayList<Integer> keySet = new ArrayList<Integer>(userMap.keySet());
+            Random random = new Random();
+            int numberToReplace;
+            char hintLetter;
+
+            do {
+                numberToReplace = keySet.get(random.nextInt(keySet.size()));
+            } while (!userMap.get(numberToReplace).equals('_'));
+
+            hintLetter = crypt.getEncryptionMap().get(numberToReplace);
+
+            userMap.replace(numberToReplace, hintLetter);
+            crypt.setUserMap(userMap);
+
+            System.out.println("Hint: Replace the number '" + numberToReplace + "' with '" + hintLetter + "'");
+        } else {
+            System.out.println("Invalid cryptogram type");
+        }
     }
 }
