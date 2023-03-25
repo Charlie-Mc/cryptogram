@@ -120,14 +120,25 @@ public class Game {
             System.out.println();
             System.out.println("current phrase: " + blankPhrase);
             System.out.println("enter a letter or enter - to remove a mapping");
+            System.out.println("Enter % at any time to show the frequency of letters");
+            System.out.println("Enter ? at any time to show the answer");
+
             char letterInput = enterLetter(crypt);
             char keyInputChar = '_';
 
             if (letterInput == '?'){
-                System.out.println("the phrase is: " + crypt.getPhrase());
                 showSolution(crypt,UserMap);
                 running = false;
                 continue;
+            }
+
+            if (letterInput == '%'){
+                ArrayList<Integer> frequency = crypt.getFrequency();
+                    for (int i = 0; i < frequency.size(); i++){
+                        System.out.println("key: " + keySet.get(i) + " frequency: " + frequency.get(i));
+                    }
+                    System.out.println();
+                    continue;
             }
             // the undo button//
             if (letterInput == '-') {
@@ -203,7 +214,6 @@ public class Game {
         int choice = 0;
         boolean correctInput = false;
         System.out.println("Enter / at any time to quit the game");
-        System.out.println("Enter ? at any time to show the answer");
         do {
             System.out.println("Please enter 1 to play a letter cryptogram or 2 to play a number cryptogram");
             Scanner input = new Scanner(System.in);
@@ -278,6 +288,11 @@ public class Game {
                     return c;
                 }
 
+                if (c == '%') {
+                    System.out.println("showing frequency ...");
+                    return c;
+                }
+
                 if (!keySet.contains(c)) {
                     System.out.println("key in not in the list, please enter a valid key");
                 }
@@ -311,6 +326,11 @@ public class Game {
 
                 if (c == '?') {
                     System.out.println("showing solution ...");
+                    return c;
+                }
+
+                if (c == '%') {
+                    System.out.println("showing frequency ...");
                     return c;
                 }
 
