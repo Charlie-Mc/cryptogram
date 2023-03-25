@@ -104,6 +104,12 @@ public class Players extends Player {
 
     public void getTop10() {
         ArrayList<Player> top10 = new ArrayList<>(allPlayers);
+
+        if (top10.isEmpty()) {
+            System.out.println("No Player Data Found.\n");
+            return;
+        }
+
         // sort the list by cryptogramsCompleted
         Collections.sort(top10, new Comparator<Player>() {
             public int compare(Player p1, Player p2) {
@@ -117,8 +123,12 @@ public class Players extends Player {
         }
 
         System.out.println("\nThe Top Ten Scoreboard:\n");
-        for (int i = 0; i < top10.size(); i++) {
-            System.out.println((i + 1) + ". " + top10.get(i).getUserName() + " with " + top10.get(i).getCryptogramsCompleted() + " completions.");
+        for (int i = 0; i < 10; i++) {
+            if (i < top10.size()) {
+                System.out.println((i + 1) + ". " + top10.get(i).getUserName() + " with " + top10.get(i).getCryptogramsCompleted() + " completions.");
+            } else {
+                System.out.println(i+1 + ".");
+            }
         }
         System.out.println("\n===============\n");
     }
