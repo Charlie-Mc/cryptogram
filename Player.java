@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Player {
@@ -83,17 +85,35 @@ public class Player {
         this.correctGuesses += 1;
     }
 
+    public void setCorrectGuesses(int correctGuesses) {
+        this.correctGuesses = correctGuesses;
+    }
+
+    public void setCryptogramsCompleted(int cryptogramsCompleted) {
+        this.cryptogramsCompleted = cryptogramsCompleted;
+    }
+
+    public void setCryptogramsPlayed(int cryptogramsPlayed) {
+        this.cryptogramsPlayed = cryptogramsPlayed;
+    }
+
+    public void setTotalGuesses(int totalGuesses) {
+        this.totalGuesses = totalGuesses;
+    }
+
+
+
 
     public void saveDetails(int userInput) throws FileNotFoundException {
         try {
             File file;
             File input;
             if (userName.equals("player")) {
-                file = new File("player.user_file");
-                input = new File("player.input");
+                file = new File("user_files/player.user_file");
+                input = new File("user_files/player.input");
             } else {
-                file = new File(userName + ".user_file");
-                input = new File(userName + ".input");
+                file = new File("user_files/" + userName + ".user_file");
+                input = new File("user_files/" + userName + ".input");
             }
 
             FileWriter writer = new FileWriter(file);
@@ -123,7 +143,7 @@ public class Player {
             int totalGuess= 0;
             int correctGuess = 0;
             Player player = null;
-            File file = new File(userName.toLowerCase().replace(' ', '_') + ".user_file");
+            File file = new File("user_files/" + userName.toLowerCase().replace(' ', '_') + ".user_file");
             Scanner fileInput = new Scanner(file);
 
                 accuracy = fileInput.nextDouble();

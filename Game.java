@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 
@@ -19,7 +20,6 @@ public class Game {
 
     public Game(boolean test){}
     public Game() throws IOException, ClassNotFoundException {
-
         // Create a new player
         players = new Players();
         players.loadPlayerList();
@@ -28,18 +28,14 @@ public class Game {
         if (sc.nextLine().charAt(0) == 'y') {
             System.out.print("Please enter here:   ");
             playerName = sc.nextLine();
-            if (players.isPlayer(playerName)) {
-                players.addPlayer(players.loadPlayer(playerName));
-            } else {
+            if (!players.isPlayer(playerName)) {
                 players.addPlayer(new Player(playerName));
-                players.savePlayersList();
             }
         } else {
-            players.loadPlayer("player");
             playerName = "player";
         }
-
         player = players.getPlayer(playerName);
+        players.savePlayersList();
 
         /**
          // if the save game gets fixed to properly save completeEncryption, this will be used
@@ -61,7 +57,7 @@ public class Game {
     }
 
     public int fileInput() throws FileNotFoundException {
-        File file = new File(playerName + ".input");
+        File file = new File("user_files/" + playerName + ".input");
         Scanner sc = new Scanner(file);
         return sc.nextInt();
     }
@@ -132,7 +128,11 @@ public class Game {
                 running = false;
                 continue;
             }
+            if (letterInput == '#'){
+                players.getTop10();
+                continue;
 
+            }
             if (letterInput == '%'){
                 ArrayList<Integer> frequency = crypt.getFrequency();
                     for (int i = 0; i < frequency.size(); i++){
@@ -221,7 +221,10 @@ public class Game {
         int choice = 0;
         boolean correctInput = false;
         System.out.println("Enter / at any time to quit the game");
+        System.out.println("Enter * at any time to get a hint");
+        System.out.println("Enter % at any time to show the frequency of letters");
         System.out.println("Enter ? at any time to show the answer");
+        System.out.println("Enter # at any time to show the top ten player scoreboard");
         do {
             System.out.println("Please enter 1 to play a letter cryptogram or 2 to play a number cryptogram");
             Scanner input = new Scanner(System.in);
@@ -237,8 +240,7 @@ public class Game {
 
             if (choice == 1 || choice == 2){
                 correctInput = true;
-            }
-            else {
+            } else {
                 System.out.println("Please enter a valid input");
             }
         } while (!correctInput);
@@ -296,6 +298,10 @@ public class Game {
                     return c;
                 }
 
+                if (c == '#') {
+                    return c;
+                }
+
                 if (c == '*') {
                     return c;
                 }
@@ -347,6 +353,10 @@ public class Game {
 
                 if (c == '%') {
                     System.out.println("showing frequency ...");
+                    return c;
+                }
+
+                if (c == '#') {
                     return c;
                 }
 
@@ -439,8 +449,8 @@ public class Game {
     }
 
     public void saveGame(Player p, Cryptogram c) throws IOException {
-        String filename = p.getUserName() + ".game_save";
-        FileWriter writer = new FileWriter(p.getUserName() + ".input", false);
+        String filename = "user_files/" + p.getUserName() + ".game_save";
+        FileWriter writer = new FileWriter("user_files/" + p.getUserName() + ".input", false);
         writer.write(userInput + "\n");
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
         oos.writeObject(c);
@@ -448,13 +458,13 @@ public class Game {
 
     }
 
-
     public Cryptogram loadGame(Player p) throws IOException, ClassNotFoundException {
-        String filename = p.getUserName() + ".game_save";
+        String filename = "user_files/" + p.getUserName() + ".game_save";
         userInput = fileInput();
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
         return (Cryptogram) ois.readObject();
-   }
+    }
+
 
     public HashMap showSolution(Cryptogram crypt, HashMap UserMap){
         System.out.println("the phrase is: " + crypt.getPhrase());
