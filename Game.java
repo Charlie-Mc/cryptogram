@@ -1,4 +1,4 @@
-import javax.swing.plaf.synth.SynthSpinnerUI;
+
 import java.io.*;
 import java.util.*;
 
@@ -22,19 +22,16 @@ public class Game {
     public Game() throws IOException, ClassNotFoundException {
         // Create a new player
         players = new Players();
+        players.loadPlayerList();
         System.out.println("Do you want to enter a name to store your stats? y/n");
         Scanner sc = new Scanner(System.in);
         if (sc.nextLine().charAt(0) == 'y') {
             System.out.print("Please enter here:   ");
             playerName = sc.nextLine();
-            if (players.isPlayer(playerName)) {
-                players.addPlayer(players.loadPlayer(playerName));
-            } else {
+            if (!players.isPlayer(playerName)) {
                 players.addPlayer(new Player(playerName));
-                players.loadPlayerList(); // load updated player list
             }
         } else {
-            players.loadPlayer("player");
             playerName = "player";
         }
         player = players.getPlayer(playerName);
@@ -131,7 +128,11 @@ public class Game {
                 running = false;
                 continue;
             }
+            if (letterInput == '#'){
+                players.getTop10();
+                continue;
 
+            }
             if (letterInput == '%'){
                 ArrayList<Integer> frequency = crypt.getFrequency();
                     for (int i = 0; i < frequency.size(); i++){
@@ -220,6 +221,8 @@ public class Game {
         int choice = 0;
         boolean correctInput = false;
         System.out.println("Enter / at any time to quit the game");
+        System.out.println("Enter * at any time to get a hint");
+        System.out.println("Enter % at any time to show the frequency of letters");
         System.out.println("Enter ? at any time to show the answer");
         System.out.println("Enter # at any time to show the top ten player scoreboard");
         do {
@@ -296,7 +299,7 @@ public class Game {
                 }
 
                 if (c == '#') {
-                    players.getTop10();
+                    return c;
                 }
 
                 if (c == '*') {
@@ -354,7 +357,7 @@ public class Game {
                 }
 
                 if (c == '#') {
-                    players.getTop10();
+                    return c;
                 }
 
                 if (!Character.isLetter(c) && c != '-') {
@@ -461,7 +464,7 @@ public class Game {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
         return (Cryptogram) ois.readObject();
     }
-   }
+
 
     public HashMap showSolution(Cryptogram crypt, HashMap UserMap){
         System.out.println("the phrase is: " + crypt.getPhrase());

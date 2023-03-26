@@ -6,7 +6,7 @@ import java.util.*;
 public class Players extends Player {
 
     ArrayList<Player> allPlayers = new ArrayList<>();
-    ArrayList<String> PlayerFile = new ArrayList<>();
+//    ArrayList<String> PlayerFile = new ArrayList<>();
 
     public Players() {
         super();
@@ -36,8 +36,8 @@ public class Players extends Player {
     }
 
     public boolean isPlayer(String name) {
-        for (String value : PlayerFile) {
-            if (value.equals(name.toLowerCase().replace(' ', '_'))) {
+        for (Player value : allPlayers) {
+            if (value.getUserName().equals(name.toLowerCase().replace(' ', '_'))) {
                 return true;
             }
         }
@@ -61,7 +61,7 @@ public class Players extends Player {
                 return;
             }
             // overwrite the file
-            FileWriter writer = new FileWriter(file, false);
+            FileWriter writer = new FileWriter(file);
             for (Player player : allPlayers) {
                 writer.write(player.getUserName() + "\n");
             }
@@ -76,6 +76,7 @@ public class Players extends Player {
     public void loadPlayerList() {
         // load in the player list
         try {
+            allPlayers.clear();
             File file = new File("user_files/playerList.user_file");
             Scanner fileInput = new Scanner(file);
             while (fileInput.hasNextLine()) {
@@ -84,12 +85,12 @@ public class Players extends Player {
                     File newFile = new File("user_files/" + line + ".user_file");
                     if (newFile.exists()) {
                         Player p = loadPlayer(line);
-                        allPlayers.add(p);
+                        addPlayer(p);
                     } else {
-                        PlayerFile.add(line);
+              //          PlayerFile.add(line);
                         Player p = new Player(line);
 //                      p = fillPlayerDetails(p);
-                        allPlayers.add(p);
+                        addPlayer(p);
                     }
                 }
             }
