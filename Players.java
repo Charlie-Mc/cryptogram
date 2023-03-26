@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -18,9 +17,11 @@ public class Players extends Player {
             allPlayers.add(player);
         }
     }
+
     public void removePlayer(Player player) {
         allPlayers.remove(player);
     }
+
     public ArrayList<Player> getAllPlayers() {
         return allPlayers;
     }
@@ -34,9 +35,9 @@ public class Players extends Player {
         return new Player();
     }
 
-    public boolean isPlayer(String name){
-        for (String value: PlayerFile){
-            if (value.equals(name.toLowerCase().replace(' ', '_'))){
+    public boolean isPlayer(String name) {
+        for (String value : PlayerFile) {
+            if (value.equals(name.toLowerCase().replace(' ', '_'))) {
                 return true;
             }
         }
@@ -72,7 +73,7 @@ public class Players extends Player {
         }
     }
 
-    public void loadPlayerList(){
+    public void loadPlayerList() {
         // load in the player list
         try {
             File file = new File("user_files/playerList.user_file");
@@ -98,7 +99,6 @@ public class Players extends Player {
             System.out.println("An error occured!");
             e.printStackTrace();
         }
-
     }
 
 
