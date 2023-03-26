@@ -86,44 +86,4 @@ public class Players extends Player {
             e.printStackTrace();
         }
     }
-
-    public void getHints(Cryptogram crypt) {
-        if (crypt instanceof LetterCryptogram) {
-            HashMap<Character, Character> letterUserMap = crypt.getLetterUserMap();
-            ArrayList<Character> keySet = new ArrayList<Character>(letterUserMap.keySet());
-            Random random = new Random();
-            char letterToReplace;
-            char hintLetter;
-
-            do {
-                letterToReplace = keySet.get(random.nextInt(keySet.size()));
-            } while (!letterUserMap.get(letterToReplace).equals('_'));
-
-            hintLetter = crypt.getLetterEncryptionMap().get(letterToReplace);
-
-            letterUserMap.replace(letterToReplace, hintLetter);
-            crypt.setLetterUserMap(letterUserMap);
-
-            System.out.println("Hint: Replace the letter '" + letterToReplace + "' with '" + hintLetter + "'");
-        } else if (crypt instanceof NumberCryptogram) {
-            HashMap<Integer, Character> userMap = crypt.getUserMap();
-            ArrayList<Integer> keySet = new ArrayList<Integer>(userMap.keySet());
-            Random random = new Random();
-            int numberToReplace;
-            char hintLetter;
-
-            do {
-                numberToReplace = keySet.get(random.nextInt(keySet.size()));
-            } while (!userMap.get(numberToReplace).equals('_'));
-
-            hintLetter = crypt.getEncryptionMap().get(numberToReplace);
-
-            userMap.replace(numberToReplace, hintLetter);
-            crypt.setUserMap(userMap);
-
-            System.out.println("Hint: Replace the number '" + numberToReplace + "' with '" + hintLetter + "'");
-        } else {
-            System.out.println("Invalid cryptogram type");
-        }
-    }
 }

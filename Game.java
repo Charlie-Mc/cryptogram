@@ -141,6 +141,12 @@ public class Game {
                     System.out.println();
                     continue;
             }
+
+            if (letterInput == '*'){
+                getHints(crypt,UserMap);
+                updateBlankPhrase(UserMap,crypt);
+                continue;
+            }
             // the undo button//
             if (letterInput == '-') {
                 if (UserMap.isEmpty()) {
@@ -291,7 +297,7 @@ public class Game {
                 }
 
                 if (c == '*') {
-                    players.getHints(crypt);
+                    return c;
                 }
 
                 if (c == '%') {
@@ -336,7 +342,7 @@ public class Game {
                 }
 
                 if (c == '*') {
-                    players.getHints(crypt);
+                    return c;
                 }
 
                 if (c == '%') {
@@ -462,5 +468,42 @@ public class Game {
         System.out.println("current phrase: " + blankPhrase);
 
         return UserMap;
+    }
+
+    public void getHints(Cryptogram crypt, HashMap UserMap) {
+        if (crypt instanceof LetterCryptogram) {
+            ArrayList<Character> keySet = new ArrayList<Character>(UserMap.keySet());
+            Random random = new Random();
+            char letterToReplace;
+            char hintLetter;
+
+            do {
+                letterToReplace = keySet.get(random.nextInt(keySet.size()));
+            } while (!crypt.getLetterUserMap().get(letterToReplace).equals('_'));
+
+            hintLetter = crypt.getLetterEncryptionMap().get(letterToReplace);
+
+            UserMap.replace(letterToReplace, hintLetter);
+
+            System.out.println("Hint: allocated the key '" + letterToReplace + "' with '" + hintLetter + "'");
+        } else if (crypt instanceof NumberCryptogram) {
+            ArrayList<Integer> keySet = new ArrayList<Integer>(UserMap.keySet());
+            Random random = new Random();
+            int numberToReplace;
+            char hintLetter;
+
+            do {
+                numberToReplace = keySet.get(random.nextInt(keySet.size()));
+            } while (!UserMap.get(numberToReplace).equals('_'));
+
+            hintLetter = crypt.getEncryptionMap().get(numberToReplace);
+
+            UserMap.replace(numberToReplace, hintLetter);
+
+
+            System.out.println("Hint: allocated the key '" + numberToReplace + "' with '" + hintLetter + "'");
+        } else {
+            System.out.println("Invalid cryptogram type");
+        }
     }
 }
