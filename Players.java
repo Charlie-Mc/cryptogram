@@ -1,11 +1,9 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
-public class Players extends Player{
+public class Players extends Player {
 
     ArrayList<Player> allPlayers = new ArrayList<>();
     ArrayList<String> PlayerFile = new ArrayList<>();
@@ -17,12 +15,15 @@ public class Players extends Player{
     public void addPlayer(Player player) {
         allPlayers.add(player);
     }
+
     public void removePlayer(Player player) {
         allPlayers.remove(player);
     }
+
     public ArrayList<Player> getAllPlayers() {
         return allPlayers;
     }
+
     public Player getPlayer(String name) {
         for (Player player : allPlayers) {
             if (player.getUserName().equals(name.toLowerCase().replace(' ', '_'))) {
@@ -32,9 +33,9 @@ public class Players extends Player{
         return new Player();
     }
 
-    public boolean isPlayer(String name){
-        for (String value: PlayerFile){
-            if (value.equals(name.toLowerCase().replace(' ', '_'))){
+    public boolean isPlayer(String name) {
+        for (String value : PlayerFile) {
+            if (value.equals(name.toLowerCase().replace(' ', '_'))) {
                 return true;
             }
         }
@@ -54,7 +55,7 @@ public class Players extends Player{
             File file;
             if (allPlayers.size() != 0) {
                 file = new File("playerList.user_file");
-            }else{
+            } else {
                 return;
             }
             // overwrite the file
@@ -70,7 +71,7 @@ public class Players extends Player{
         }
     }
 
-    public void loadPlayerList(){
+    public void loadPlayerList() {
         // load in the player list
         try {
             File file = new File("playerList.user_file");
@@ -84,8 +85,5 @@ public class Players extends Player{
             System.out.println("An error occured!");
             e.printStackTrace();
         }
-
     }
-
-
 }
