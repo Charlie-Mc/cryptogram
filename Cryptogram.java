@@ -15,7 +15,7 @@ public class Cryptogram implements Serializable {
     }
 
     public HashMap<Integer, Character> getEncryptionMap() {
-        return null;
+        return encryptionMap;
     }
     public HashMap<Character, Character> getLetterEncryptionMap() {
         return null;
@@ -138,6 +138,26 @@ public class Cryptogram implements Serializable {
         return BlankPhrase;
     }
 
+    public ArrayList<Integer> getFrequency(){
+        ArrayList<Integer> frequency = new ArrayList<>();
 
+        for(int key : encryptionMap.keySet()) {
+            int count = 0;
+            for (int i = 0; i < completeEncryption.size(); i++) {
+                if (completeEncryption.get(i) == key) {
+                    count++;
+
+                }
+            }
+            frequency.add(count);
+        }
+
+        return frequency;
+    }
+
+
+    public void setPhrase(String phrase) {
+        this.phrase = phrase;
+    }
 }
 

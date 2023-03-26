@@ -17,6 +17,7 @@ public class Game {
         new Game();
     }
 
+    public Game(boolean test){}
     public Game() throws IOException, ClassNotFoundException {
 
         // Create a new player
@@ -85,6 +86,7 @@ public class Game {
     }
 
 
+
     public void playGame(Cryptogram crypt) throws IOException {
 
         ArrayList keySet;
@@ -119,9 +121,26 @@ public class Game {
             System.out.println("phrase: " + crypt.getPhrase());
             System.out.println("current phrase: " + blankPhrase);
             System.out.println("enter a letter or enter - to remove a mapping");
+            System.out.println("Enter % at any time to show the frequency of letters");
+            System.out.println("Enter ? at any time to show the answer");
+
             char letterInput = enterLetter(crypt);
             char keyInputChar = '_';
 
+            if (letterInput == '?'){
+                showSolution(crypt,UserMap);
+                running = false;
+                continue;
+            }
+
+            if (letterInput == '%'){
+                ArrayList<Integer> frequency = crypt.getFrequency();
+                    for (int i = 0; i < frequency.size(); i++){
+                        System.out.println("key: " + keySet.get(i) + " frequency: " + frequency.get(i));
+                    }
+                    System.out.println();
+                    continue;
+            }
             // the undo button//
             if (letterInput == '-') {
                 if (UserMap.isEmpty()) {
@@ -170,9 +189,9 @@ public class Game {
 
             }
         }
-        System.out.println();
-        player.saveDetails(userInput);
-        saveGame(player, crypt);
+            System.out.println();
+            player.saveDetails(userInput);
+            saveGame(player, crypt);
     }
 
 
@@ -197,7 +216,6 @@ public class Game {
         boolean correctInput = false;
         System.out.println("Enter / at any time to quit the game");
         System.out.println("Enter ? at any time to show the answer");
-        System.out.println("Enter * at any time to show the hints");
         do {
             System.out.println("Please enter 1 to play a letter cryptogram or 2 to play a number cryptogram");
             Scanner input = new Scanner(System.in);
@@ -211,9 +229,10 @@ public class Game {
 
             input.nextLine();
 
-            if (choice == 1 || choice == 2) {
+            if (choice == 1 || choice == 2){
                 correctInput = true;
-            } else {
+            }
+            else {
                 System.out.println("Please enter a valid input");
             }
         } while (!correctInput);
@@ -222,7 +241,8 @@ public class Game {
     }
 
 
-    public int enterNumber(ArrayList<Integer> keySet) throws FileNotFoundException {
+
+    public int enterNumber(ArrayList<Integer> keySet) throws FileNotFoundException{
 
         try {
             int i = 0;
@@ -237,10 +257,10 @@ public class Game {
                 }
 
 
-                if (!keySet.contains(i)) {
+                if (!keySet.contains(i)){
                     System.out.println("key in not in the list, please enter a valid key");
                 }
-            } while (!keySet.contains(i));
+            }while(!keySet.contains(i));
             return i;
         } catch (InputMismatchException e) {
             System.out.println("Please enter a valid input");
@@ -248,8 +268,7 @@ public class Game {
         }
 
     }
-
-    public char enterLetter(ArrayList<Character> keySet, Cryptogram crypt) throws FileNotFoundException, InputMismatchException {
+    public char enterLetter(ArrayList<Character> keySet, Cryptogram crypt) throws FileNotFoundException, InputMismatchException{
         // takes in user input
         try {
             char c = ' ';
@@ -273,6 +292,11 @@ public class Game {
 
                 if (c == '*') {
                     players.getHints(crypt);
+                }
+
+                if (c == '%') {
+                    System.out.println("showing frequency ...");
+                    return c;
                 }
 
                 if (!keySet.contains(c)) {
@@ -289,7 +313,7 @@ public class Game {
         }
     }
 
-    public char enterLetter(Cryptogram crypt) throws FileNotFoundException, InputMismatchException {
+    public char enterLetter(Cryptogram crypt) throws FileNotFoundException, InputMismatchException{
         // takes in user input
         try {
             char c = ' ';
@@ -313,6 +337,11 @@ public class Game {
 
                 if (c == '*') {
                     players.getHints(crypt);
+                }
+
+                if (c == '%') {
+                    System.out.println("showing frequency ...");
+                    return c;
                 }
 
                 if (!Character.isLetter(c) && c != '-') {
@@ -336,7 +365,7 @@ public class Game {
             } else {
                 UserMap.replace(keyInputChar, letterInput);
             }
-            if (newInput) {
+            if(newInput){
                 if (crypt.getLetterEncryptionMap().get(keyInputChar) == letterInput) {
                     player.addTotalGuesses();
                     player.addCorrectGuesses();
@@ -355,7 +384,7 @@ public class Game {
                 UserMap.replace(KeyInputNumber, letterInput);
             }
 
-            if (newInput) {
+            if (newInput){
                 char l = crypt.getEncryptionMap().get(KeyInputNumber);
                 if (crypt.getEncryptionMap().get(KeyInputNumber).equals(letterInput)) {
                     player.addTotalGuesses();
@@ -369,7 +398,7 @@ public class Game {
         return UserMap;
     }
 
-    private void updateBlankPhrase(HashMap UserMap, Cryptogram crypt) {
+    private void updateBlankPhrase(HashMap UserMap, Cryptogram crypt){
         if (userInput == 1) {
             for (char key : crypt.getLetterEncryptionMap().keySet()) {
                 int counter = 0;
@@ -419,5 +448,19 @@ public class Game {
         userInput = fileInput();
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
         return (Cryptogram) ois.readObject();
+   }
+
+    public HashMap showSolution(Cryptogram crypt, HashMap UserMap){
+        System.out.println("the phrase is: " + crypt.getPhrase());
+        if (userInput == 1){
+            UserMap = crypt.getLetterEncryptionMap();
+        } else {
+            UserMap = crypt.getEncryptionMap();
+        }
+        System.out.println("updating current phrase and exiting");
+        updateBlankPhrase(UserMap, crypt);
+        System.out.println("current phrase: " + blankPhrase);
+
+        return UserMap;
     }
 }
